@@ -5,7 +5,6 @@ from torch import nn, Tensor
 import torch.nn.functional as F
 
 class Config:
-
     def __init__(self, checkpoint=None):
         self.n_layer = 12
         self.n_head = 12
@@ -25,24 +24,13 @@ class Attention(nn.Module):
         size = cfg.block_size
         self.register_buffer('bias', torch.tril(torch.ones(size, size)).view(1, 1, size, size))
 
-        self.c_cross_attn_kv = nn.Linear(cfg.n_embd, 2 * cfg.n_embd)
-
-    def forward(self, x, encoder_output=None):
+    def forward(self, x):
         B, T, C = x.size() # batch, context, embedding
         # self-attention
-        if (encoder_output == None):
-            q, k, v  = self.c_attn(x).split(self.n_embd, dim=2)
-            k = k.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)
-            q = q.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)
-            v = v.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)
-        # cross-attention
-        else:
-            q = self.c_attn(x).split(self.n_embd, dim=2)[0]
-            q = q.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)
-            k_v = self.c_cross_attn_kv(encoder_output)
-            k, v = k_v.split(self.n_embd, dim=2)
-            k = k.view(B, -1, self.n_head, C // self.n_head).transpose(1, 2)
-            v = v.view(B, -1, self.n_head, C // self.n_head).transpose(1, 2)
+        q, k, v  = self.c_attn(x).split(self.n_embd, dim=2)
+        k = k.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)
+        q = q.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)
+        v = v.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)
 
         att = (q @ k.transpose(-2, -1)) * (1.0 / math.sqrt(k.size(-1)))
         att = att.masked_fill(self.bias[:,:,:T,:T] == 0, float('-inf'))
@@ -62,12 +50,9 @@ class Block(nn.Module):
             ('c_proj', nn.Linear(4 * cfg.n_embd, cfg.n_embd))
         ]))
 
-    def forward(self, x, encoder_output):
+    def forward(self, x):
         # self-attention
         x = x + self.attn(self.ln_1(x))
-        # cross-attention
-        if (encoder_output != None):
-            x = x + self.attn(self.ln_1(x), encoder_output)
         # MLP layer
         x = x + self.mlp(self.ln_2(x))
         return x
@@ -95,22 +80,11 @@ class Decoder(nn.Module):
                     state_dict[key] = value.t()
             self.transformer.load_state_dict(state_dict, strict=False)
 
-    def forward(self, x: Tensor):
+    def forward(self, x: Tensor, visual_embeds: Tensor):
         x = torch.narrow(x, 1, 0, min(x.size(1), self.block_size))
         pos = torch.arange(x.size()[1], dtype=torch.long, device=x.device).unsqueeze(0)
         x = self.transformer.wte(x) + self.transformer.wpe(pos)
+        print("x.shape", x.shape)
+        print("visual_embeds.shape", visual_embeds.shape)
         x = self.lm_head(self.transformer.ln_f(self.transformer.h(x)))
-        return x
-    def forward(self, x: Tensor, visual_features: Tensor):
-        x = torch.narrow(x, 1, 0, min(x.size(1), self.block_size))
-        pos = torch.arange(x.size()[1], dtype=torch.long, device=x.device).unsqueeze(0)
-        x = self.transformer.wte(x) + self.transformer.wpe(pos)
-
-        for block in self.transformer.h:
-            x = block(x, encoder_output=visual_features)
-
-        # Forward pass through transformer and final layer
-        x = self.transformer.ln_f(x)
-        x = self.lm_head(x)
-
         return x
