@@ -5,3 +5,5 @@ hw3_data/*
 *jpg
 hw3_data.zip
 *__pycache__*
+decoder_model.bin
+outputlog*

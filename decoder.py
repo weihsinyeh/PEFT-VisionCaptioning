@@ -59,10 +59,11 @@ class Block(nn.Module):
 
 class Decoder(nn.Module):
 
-    def __init__(self, cfg):
+    def __init__(self, cfg, device):
         super().__init__()
         self.cfg = cfg
         self.block_size = cfg.block_size
+        self.device = device
         self.transformer = nn.ModuleDict(dict(
             wte = nn.Embedding(cfg.vocab_size, cfg.n_embd),
             wpe = nn.Embedding(cfg.block_size, cfg.n_embd),
@@ -80,11 +81,10 @@ class Decoder(nn.Module):
                     state_dict[key] = value.t()
             self.transformer.load_state_dict(state_dict, strict=False)
 
-    def forward(self, x: Tensor, visual_embeds: Tensor):
+    def forward(self, visual_embeds: Tensor, x: Tensor):
         x = torch.narrow(x, 1, 0, min(x.size(1), self.block_size))
         pos = torch.arange(x.size()[1], dtype=torch.long, device=x.device).unsqueeze(0)
         x = self.transformer.wte(x) + self.transformer.wpe(pos)
-        print("x.shape", x.shape)
-        print("visual_embeds.shape", visual_embeds.shape)
+        x = torch.cat([visual_embeds, x], dim=1)
         x = self.lm_head(self.transformer.ln_f(self.transformer.h(x)))
         return x
