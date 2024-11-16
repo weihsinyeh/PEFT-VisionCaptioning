@@ -10,10 +10,10 @@ from tqdm import tqdm
 
 def parse():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--valid_annotation",   type = str,     default = "./hw3_data/p1_data/val.json")
-    parser.add_argument("--pred_file",          type = str,     default = "./hw3_output/P2_pred")
-    parser.add_argument("--output_checkpoint",  type = str,     default = "./hw3_output/P2_checkpoint")
-    parser.add_argument("--valid_images_dir",   type = str,     default = "./hw3_data/p1_data/images/val")
+    parser.add_argument("--valid_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p1_data/val.json")
+    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P1_pred")
+    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint")
+    parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p1_data/images/val")
     parser.add_argument("--batch_size",         type = int,     default = 8)
     parser.add_argument("--lr",                 type = float,   default = 1e-4)
     parser.add_argument("--epochs",             type = int,     default = 100)
@@ -38,11 +38,10 @@ def main():
         bnb_4bit_compute_dtype=torch.float16
     )
 
-    model = LlavaForConditionalGeneration.from_pretrained(  model_id, torch_dtype=torch.float16, low_cpu_mem_usage=False).to(device)
+    model = LlavaForConditionalGeneration.from_pretrained(  model_id, torch_dtype=torch.float16, low_cpu_mem_usage=True).to(device)
 
-    prompts = ["USER: <image>\nPlease describe this image\nASSISTANT:",]
-
-
+    prompts = ["Please describe this image",]
+    output = {}
     with torch.no_grad():
         for batch in tqdm(valid_loader):
             batch["images"]     = batch["images"].to(device)
@@ -52,8 +51,10 @@ def main():
             output = model.generate(**inputs, max_new_tokens=20)
             generated_text = processor.batch_decode(output, skip_special_tokens=True)
             for text in generated_text:
-                print(text.split("ASSISTANT:")[-1])
+                output[batch["file_name"]] = text
 
+    with open(config.pred_file, "w") as f:
+        json.dump(output, f, indent=4)
 
 if __name__ == '__main__':
     torch.manual_seed(42)
