@@ -3,7 +3,7 @@ import collections
 import torch
 from torch import nn, Tensor
 import torch.nn.functional as F
-
+import loralib as lora
 class Config:
     def __init__(self, checkpoint=None):
         self.n_layer = 12
@@ -17,8 +17,8 @@ class Attention(nn.Module):
 
     def __init__(self, cfg):
         super().__init__()
-        self.c_attn = nn.Linear(cfg.n_embd, 3 * cfg.n_embd)
-        self.c_proj = nn.Linear(cfg.n_embd, cfg.n_embd)
+        self.c_attn = lora.Linear(cfg.n_embd, 3 * cfg.n_embd, r = 16)
+        self.c_proj = lora.Linear(cfg.n_embd, cfg.n_embd, r = 16)
         self.n_head = cfg.n_head
         self.n_embd = cfg.n_embd
         size = cfg.block_size
@@ -45,9 +45,9 @@ class Block(nn.Module):
         self.ln_2 = nn.LayerNorm(cfg.n_embd)
         self.attn = Attention(cfg)
         self.mlp = nn.Sequential(collections.OrderedDict([
-            ('c_fc', nn.Linear(cfg.n_embd, 4 * cfg.n_embd)),
+            ("c_fc", lora.Linear(cfg.n_embd, 4 * cfg.n_embd, r=16)),
             ('act', nn.GELU(approximate='tanh')),
-            ('c_proj', nn.Linear(4 * cfg.n_embd, cfg.n_embd))
+            ("c_proj", lora.Linear(4 * cfg.n_embd, cfg.n_embd, r=16))
         ]))
 
     def forward(self, x):
@@ -65,12 +65,12 @@ class Decoder(nn.Module):
         self.block_size = cfg.block_size
         self.device = device
         self.transformer = nn.ModuleDict(dict(
-            wte = nn.Embedding(cfg.vocab_size, cfg.n_embd),
-            wpe = nn.Embedding(cfg.block_size, cfg.n_embd),
+            wte=lora.Embedding(cfg.vocab_size, cfg.n_embd, r=16),
+            wpe=lora.Embedding(cfg.block_size, cfg.n_embd, r=16),
             h = nn.Sequential(*[Block(cfg) for _ in range(cfg.n_layer)]),
             ln_f = nn.LayerNorm(cfg.n_embd)
         ))
-        self.lm_head = nn.Linear(cfg.n_embd, cfg.vocab_size, bias=False)
+        self.lm_head = lora.Linear(cfg.n_embd, cfg.vocab_size, bias=False, r=16)
         self.transformer.wte.weight = self.lm_head.weight
         # load checkpoint
         if self.cfg.checkpoint is not None:
@@ -85,6 +85,10 @@ class Decoder(nn.Module):
         x = torch.narrow(x, 1, 0, min(x.size(1), self.block_size))
         pos = torch.arange(x.size()[1], dtype=torch.long, device=x.device).unsqueeze(0)
         x = self.transformer.wte(x) + self.transformer.wpe(pos)
+        print(x.mean(), x.min(), x.max())
+        print(visual_embeds.mean(), visual_embeds.min(), visual_embeds.max()) 
         x = torch.cat([visual_embeds, x], dim=1)
+        x = self.transformer.ln_f(self.transformer.h(x))
+        print (x.mean(), x.min(), x.max())
         x = self.lm_head(self.transformer.ln_f(self.transformer.h(x)))
         return x

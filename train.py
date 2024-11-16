@@ -7,7 +7,7 @@ from P2.dataloader import DataLoaderTrain, DataLoaderTest
 from P2.transform import augmentation
 from P2.model import VITModel
 from decoder import Decoder, Config
-
+import loralib as lora
 def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/train.json")
@@ -17,8 +17,8 @@ def parse():
     parser.add_argument("--train_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/train")
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/val")
     parser.add_argument("--decoder",            type = str,     default = "./decoder_model.bin")
-    parser.add_argument("--batch_size",         type = int,     default = 8)
-    parser.add_argument("--lr",                 type = float,   default = 1e-4)
+    parser.add_argument("--batch_size",         type = int,     default = 16)
+    parser.add_argument("--lr",                 type = float,   default = 5e-4)
     parser.add_argument("--epochs",             type = int,     default = 100)
     return parser.parse_args()
 
@@ -27,99 +27,106 @@ def main():
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     config.device = device
-    ############ Load Tokenizer ############
+    # Load Tokenizer
     tokenizer = BPETokenizer("encoder.json", "vocab.bpe")
 
-    ############ Load Dataset ############
+    # Load Dataset
     TrainDataset = DataLoaderTrain(config.train_images_dir, config.train_annotation, tokenizer, augmentation)
-    train_loader = DataLoader(TrainDataset, batch_size = config.batch_size, collate_fn = TrainDataset.collate_fn)
+    train_loader = DataLoader(TrainDataset, batch_size = config.batch_size, collate_fn = TrainDataset.collate_fn, num_workers = 8, shuffle = True)
     # ValidDataset = DataLoaderTest(config.valid_images_dir, augmentation)
     ValidDataset = DataLoaderTrain(config.valid_images_dir, config.valid_annotation, tokenizer, augmentation)
-    valid_loader = DataLoader(ValidDataset, batch_size = 1, collate_fn = ValidDataset.collate_fn)
+    valid_loader = DataLoader(ValidDataset, batch_size = 1, collate_fn = ValidDataset.collate_fn, num_workers = 8, shuffle = False)
     
-    ############ Load Encoder : ViT-Large from timm ############
-    pretrained_model = timm.create_model('vit_base_patch16_224.augreg_in21k', pretrained=True).to(device)
+    # Load Encoder
+    pretrained_model = timm.create_model('vit_large_patch14_clip_224', pretrained=True, num_classes=0).to(device)
     
-    ############ Load Decoder ############
+    # Load Decoder
     deconder_config = Config(config.decoder)
     decoder = Decoder(deconder_config, config.device).to(device)
-    
-    ############ Load Model ############
+    decoder.load_state_dict(torch.load(config.decoder), strict=False)
+    # Load Model
     model = VITModel(pretrained_model, decoder, tokenizer, device)
 
-    ############ Optimizer ############
+    lora.mark_only_lora_as_trainable(model)
+
+    # Unfreeze the Projection layer
+    for param in model.Linear.parameters():
+        param.requires_grad = True
+
+    # Optimizer
     # Vision Transformers (ViTs) commonly use the AdamW optimizer for training. 
     # Learning rate is ften around 1e-4 to 1e-3.
-    optimizer = torch.optim.AdamW(model.parameters(), lr = config.lr)
-    scheduler = CosineAnnealingLR(optimizer, T_max=config.epochs * len(train_loader) - 1000)
-
-    # Freeze the all model first
-    for param in model.parameters():
-        param.requires_grad = False
-
-    # for param in model.Liner.parameters():
-    #    param.requires_grad = True
-    
-    # Train the cross attention
-    for param in model.decoder.lm_head.parameters():
-        param.requires_grad = True
+    optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
 
     # Recoder the weights that is trained
     train_parameter_name = []
     for name, param in model.named_parameters():
+        print(name, param.requires_grad)
         if param.requires_grad == True:
             train_parameter_name.append(name)
-    print("Total parms:", sum(p.numel() for p in model.parameters() if p.requires_grad))
+
+    lora_total_params = sum(p.numel() for p in lora.lora_state_dict(model).values())
+    model_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+    total_params = lora_total_params + model_trainable_params
+    # print("Total parameters (including LoRA):", total_params)
+    trainable_weights = [
+        name for name, param in model.named_parameters() if param.requires_grad == True
+    ]
+    # print("Trainable parameters:", trainable_weights)
     for epoch in range(config.epochs):
         ################ Train ################
         train_loss = 0
         model.train()
-        for batch in tqdm(train_loader):
+        progress_bar = tqdm(train_loader, desc=f"Epoch {epoch+1}/{config.epochs}", unit="batch")
+        for batch in progress_bar:
             optimizer.zero_grad()
             batch["images"]             = batch["images"].to(device)
             batch["input_ids"]          = batch["input_ids"].to(device)
-            batch["GT_ids"]             = batch["GT_ids"].to(device)
             batch["attention_masks"]    = batch["attention_masks"].to(device)
             loss = model(   batch["images"],
                             batch["input_ids"],
-                            batch["attention_masks"],
-                            batch["GT_ids"])
-
+                            batch["attention_masks"])
             loss.backward()
             optimizer.step()
-            # Update scheduler
-            scheduler.step()
             # Track loss for the epoch
             train_loss += loss.item()
+            progress_bar.set_postfix({"loss": loss.item()})
+            
         print(f"Epoch {epoch} Train Loss: {train_loss / len(train_loader)}")
-        # Save model
-        save_paremeter_weights = {}
-        for key, value in model.state_dict().items():
-            if key in train_parameter_name:
-                print(key)
-                save_paremeter_weights[key] = value
-        
-        checpoint_path = os.path.join(config.output_checkpoint,f"epoch_{epoch}.bin")
-        torch.save(save_paremeter_weights, checpoint_path)
+        # Save model        
+        checkpoint_path = os.path.join(config.output_checkpoint,f"epoch_{epoch}.bin")
+        checkpoint = {
+            "lora_state_dict": lora.lora_state_dict(model),
+            "trainable_params": model.Linear.state_dict(),
+        }
+        torch.save(checkpoint, checkpoint_path)
         ################ Evaluation ################
         model.eval()
+        # Load
+        checkpoint = torch.load(checkpoint_path)
+        lora_params = checkpoint["lora_state_dict"]
+        model.load_state_dict(lora_params, strict=False)
+        model.Linear.load_state_dict(checkpoint["trainable_params"])
+
+
         val_loss = 0
         output_data = {}
         for batch in tqdm(valid_loader):
             batch["images"]     = batch["images"].to(device)
             batch["input_ids"]  = batch["input_ids"].to(device)
-            batch["GT_ids"]     = batch["GT_ids"].to(device)
-
+            batch["attention_masks"] = batch["attention_masks"].to(device)
             output_ids          = model.generate(batch["images"])
+            # output_ids          = model.greedy_search(batch["images"])
             sentence            = tokenizer.decode(output_ids)
             with torch.no_grad():
                 loss = model(   batch["images"],
                                 batch["input_ids"],
-                                batch["GT_ids"])
+                                batch["attention_masks"])
 
             val_loss += loss.item()
             for i in range(len(batch["filenames"])):
-                print(f"{batch['filenames'][i]}: {sentence}")
+                # print(f"{batch['filenames'][i]}: {sentence}")
                 output_data[batch["filenames"][i]] = sentence
 
         print(f"Epoch {epoch} Validation Loss: {val_loss / len(valid_loader)}")

@@ -50,3 +50,4 @@ class BPETokenizer:
         tokens = [self.decoder[token] for token in tokens]
         buffer = bytearray([self.byte_decoder[c] for c in ''.join(tokens)])
         return buffer.decode('utf-8', errors='replace')
+

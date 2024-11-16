@@ -7,17 +7,15 @@ UNK_TOKEN = 1
 BOS = 50256
 
 # GT and input ids is padded to the same length and pad_token_id is (-1)
-def pad_sequences(sequences, groud_truths, pad_token_id = -1):
+def pad_sequences(sequences, pad_token_id = -1):
     length = []
     for seq in sequences:
         length.append(len(seq))
     max_len = max(length)
-    padded_sequences, GT_sequences = [], []
+    padded_sequences = []
     for seq in sequences:
         padded_sequences.append(seq + [pad_token_id] * (max_len - len(seq)))
-    for ground_truth in groud_truths:
-        GT_sequences.append(ground_truth + [pad_token_id] * (max_len - len(ground_truth)))
-    return padded_sequences, GT_sequences
+    return padded_sequences
 
 class DataLoaderTrain(Dataset):
     def __init__(self, imagedir, annotation_json, tokenizer, transform):
@@ -65,14 +63,12 @@ class DataLoaderTrain(Dataset):
                 input_id.insert(len(input_id), BOS)
             input_ids.append(input_id)
 
-        GT_ids = [row[1:] for row in input_ids]
-        input_ids, GT_ids   = pad_sequences(input_ids, GT_ids)
+        input_ids           = pad_sequences(input_ids, -1)
         attention_masks     = [[float(i != -1) for i in input_id] for input_id in input_ids]
 
         input_ids           = [[PAD_TOKEN if x == -1 else x for x in seq] for seq in input_ids]
-        GT_ids              = [[PAD_TOKEN if x == -1 else x for x in seq] for seq in GT_ids]
+
         input_ids           = torch.tensor(input_ids)
-        GT_ids              = torch.tensor(GT_ids)
 
         att_mask_tensors    = torch.tensor(attention_masks)
 
@@ -80,7 +76,6 @@ class DataLoaderTrain(Dataset):
         return {    "filenames"       : filenames,
                     "captions"        : captions,
                     "input_ids"       : input_ids,
-                    "GT_ids"          : GT_ids,
                     "attention_masks" : att_mask_tensors,
                     "images"          : images,
                     "image_ids"       : image_ids }

@@ -7,3 +7,4 @@ hw3_data.zip
 *__pycache__*
 decoder_model.bin
 outputlog*
+lora_test.py
