@@ -17,7 +17,7 @@ def parse():
     parser.add_argument("--train_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/train")
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/val")
     parser.add_argument("--decoder",            type = str,     default = "./decoder_model.bin")
-    parser.add_argument("--batch_size",         type = int,     default = 16)
+    parser.add_argument("--batch_size",         type = int,     default = 32)
     parser.add_argument("--lr",                 type = float,   default = 5e-4)
     parser.add_argument("--epochs",             type = int,     default = 100)
     return parser.parse_args()

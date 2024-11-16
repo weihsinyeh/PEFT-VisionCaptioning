@@ -85,10 +85,8 @@ class Decoder(nn.Module):
         x = torch.narrow(x, 1, 0, min(x.size(1), self.block_size))
         pos = torch.arange(x.size()[1], dtype=torch.long, device=x.device).unsqueeze(0)
         x = self.transformer.wte(x) + self.transformer.wpe(pos)
-        print(x.mean(), x.min(), x.max())
-        print(visual_embeds.mean(), visual_embeds.min(), visual_embeds.max()) 
         x = torch.cat([visual_embeds, x], dim=1)
         x = self.transformer.ln_f(self.transformer.h(x))
-        print (x.mean(), x.min(), x.max())
-        x = self.lm_head(self.transformer.ln_f(self.transformer.h(x)))
+        text_output = x[:, visual_embeds.size(1):]  # Get only the text portion
+        x = self.lm_head(text_output)
         return x

@@ -62,7 +62,9 @@ class VITModel(nn.Module):
         pos = torch.arange(x.size()[1], dtype=torch.long, device=x.device).unsqueeze(0)
         x   = self.decoder.transformer.wte(x) + self.decoder.transformer.wpe(pos)
         x   = torch.cat([encoder_feature, x], dim=1)
-        x   = self.decoder.lm_head(self.decoder.transformer.ln_f(x[:, -1, :]))
+        x   = self.decoder.transformer.ln_f(x[:, -1, :])
+        text_output = x[:, encoder_feature.size(1):] 
+        x   = self.decoder.lm_head(text_output)
         return x
 
     def generate(self, imgs):
@@ -125,7 +127,7 @@ class VITModel(nn.Module):
             cur_p = cur_p.flatten()
 
             # Debug: Check probabilities before normalization
-            print(f"Step {i}, cur_p shape: {cur_p.shape}")
+            # print(f"Step {i}, cur_p shape: {cur_p.shape}")
 
             # Length normalization
             _, idx = (cur_p / (len(cur_token[0]) + 1)).topk(k=beams, dim=-1)
@@ -141,7 +143,7 @@ class VITModel(nn.Module):
             cur_token = torch.cat((cur_token, next_token), dim=1)
 
             # Debug: Output current token states
-            print(f"Step {i}, cur_token: {cur_token.shape}")
+            # print(f"Step {i}, cur_token: {cur_token.shape}")
 
             # Check if we should finalize a beam
             to_rm_idx = set()
@@ -163,8 +165,8 @@ class VITModel(nn.Module):
         if ans_probs:
             max_idx = torch.argmax(torch.tensor(ans_probs)).item()
             ans_ids[max_idx] = [x for x in ans_ids[max_idx] if x != EOS]
-            print("ans_ids[max_idx]", ans_ids[max_idx])
+            # print("ans_ids[max_idx]", ans_ids[max_idx])
             return ans_ids[max_idx]
         else:
-            print("No valid sequence generated.")
+            # print("No valid sequence generated.")
             return []
