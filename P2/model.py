@@ -62,9 +62,10 @@ class VITModel(nn.Module):
         pos = torch.arange(x.size()[1], dtype=torch.long, device=x.device).unsqueeze(0)
         x   = self.decoder.transformer.wte(x) + self.decoder.transformer.wpe(pos)
         x   = torch.cat([encoder_feature, x], dim=1)
-        x   = self.decoder.transformer.ln_f(x[:, -1, :])
-        text_output = x[:, encoder_feature.size(1):] 
-        x   = self.decoder.lm_head(text_output)
+        x   = self.decoder.transformer.h(x)
+        x   = self.decoder.transformer.ln_f(x)
+        text_output = x[:, visual_embeds.size(1):]
+        x   = self.decoder.lm_head(x)
         return x
 
     def generate(self, imgs):
@@ -75,8 +76,7 @@ class VITModel(nn.Module):
         # Encoder
         feature = self.pretrained_model.forward_features(imgs)
         feature = self.Linear(feature)
-        output = self.beamsearch(feature)
-        print("output",output)
+        output  = self.beamsearch(feature)
         return output
     
     def greedy_search(self, img, max_length=30):
@@ -89,13 +89,13 @@ class VITModel(nn.Module):
             encoder_feature = self.encoder.forward_features(img)
             encoder_feature = self.feature_resize(encoder_feature)
 
-        cur_state = torch.tensor([EOS_TOKEN]).to(device).unsqueeze(1)
+        cur_state = torch.tensor([EOS]).to(device).unsqueeze(1)
         for _ in range(max_length):
             with torch.no_grad():
                 next_prob = generator_decoder(cur_state, encoder_feature)
 
             next_word = next_prob.argmax(dim=-1).unsqueeze(0)
-            if next_word.item() == EOS_TOKEN:
+            if next_word.item() == EOS:
                 break
             cur_state = torch.concat((cur_state, next_word), dim=-1)
         return cur_state[0, 1:].cpu().tolist()  # remove [BOS]
@@ -106,7 +106,7 @@ class VITModel(nn.Module):
         vocab_size = next_p.shape[-1]
 
         # Debug: Check initial probabilities
-        print(f"Initial next_p shape: {next_p.shape}, vocab_size: {vocab_size}")
+        # print(f"Initial next_p shape: {next_p.shape}, vocab_size: {vocab_size}")
 
         cur_p, next_token = next_p.log_softmax(-1).topk(k=beams, axis=-1)
         cur_p = cur_p.reshape(beams)
@@ -168,5 +168,5 @@ class VITModel(nn.Module):
             # print("ans_ids[max_idx]", ans_ids[max_idx])
             return ans_ids[max_idx]
         else:
-            # print("No valid sequence generated.")
+            print("No valid sequence generated.")
             return []

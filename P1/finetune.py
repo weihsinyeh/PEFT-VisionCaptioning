@@ -12,11 +12,7 @@ def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument("--valid_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p1_data/val.json")
     parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P1_pred")
-    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint")
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p1_data/images/val")
-    parser.add_argument("--batch_size",         type = int,     default = 8)
-    parser.add_argument("--lr",                 type = float,   default = 1e-4)
-    parser.add_argument("--epochs",             type = int,     default = 100)
     return parser.parse_args()
 
 def main():
@@ -48,6 +44,7 @@ def main():
             batch["captions"]   = batch["captions"]
  
             inputs = processor(prompts, batch["images"], padding=True, return_tensors="pt").to(device)
+            print(inputs)
             output = model.generate(**inputs, max_new_tokens=20)
             generated_text = processor.batch_decode(output, skip_special_tokens=True)
             for text in generated_text:

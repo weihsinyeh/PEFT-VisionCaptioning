@@ -61,7 +61,7 @@ def main():
     # Recoder the weights that is trained
     train_parameter_name = []
     for name, param in model.named_parameters():
-        print(name, param.requires_grad)
+        # print(name, param.requires_grad)
         if param.requires_grad == True:
             train_parameter_name.append(name)
 

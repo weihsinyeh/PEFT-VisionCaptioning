@@ -31,7 +31,8 @@ class DataLoaderTrain(Dataset):
         for data in self.annotation["annotations"]:
             data["caption"]         = data["caption"]
             data["image_id"]        = data["image_id"]
-            data["file_name"]       = dicts[data["image_id"]]
+            file_name, ext = os.path.splitext(dicts[data["image_id"]])
+            data["file_name"]       = file_name
             # transform image only when training
             self.datas[data["image_id"]]  = data
     
