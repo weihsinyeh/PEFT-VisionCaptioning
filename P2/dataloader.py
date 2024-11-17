@@ -32,13 +32,14 @@ class DataLoaderTrain(Dataset):
             data["caption"]         = data["caption"]
             data["image_id"]        = data["image_id"]
             file_name, ext = os.path.splitext(dicts[data["image_id"]])
+            data["file_path"]       = dicts[data["image_id"]]
             data["file_name"]       = file_name
             # transform image only when training
             self.datas[data["image_id"]]  = data
     
     def __getitem__(self, idx):
         # transform image only when training
-        path = os.path.join(self.imagedir, self.datas[idx]["file_name"])
+        path = os.path.join(self.imagedir, self.datas[idx]["file_path"])
         image = Image.open(path).convert('RGB')
         self.datas[idx]["image"] = self.transform(image)
         return self.datas[idx]
