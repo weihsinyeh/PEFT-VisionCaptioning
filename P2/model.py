@@ -57,15 +57,15 @@ class VITModel(nn.Module):
         loss = self.loss_fn(feature, gts)
         return loss
     
-    def generator_decoder(self, x: Tensor, encoder_feature: Tensor):
+    def generator_decoder(self, x: Tensor, visual_embeds: Tensor):
         x   = torch.narrow(x, 1, 0, min(x.size(1), self.decoder.block_size))
         pos = torch.arange(x.size()[1], dtype=torch.long, device=x.device).unsqueeze(0)
         x   = self.decoder.transformer.wte(x) + self.decoder.transformer.wpe(pos)
-        x   = torch.cat([encoder_feature, x], dim=1)
+        x   = torch.cat([visual_embeds, x], dim=1)
         x   = self.decoder.transformer.h(x)
         x   = self.decoder.transformer.ln_f(x)
-        text_output = x[:, visual_embeds.size(1):]
-        x   = self.decoder.lm_head(x)
+        text_output = x[:, -1]
+        x   = self.decoder.lm_head(text_output)
         return x
 
     def generate(self, imgs):

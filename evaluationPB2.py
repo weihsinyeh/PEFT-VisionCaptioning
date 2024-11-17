@@ -36,7 +36,7 @@ def main():
 
     # Load Dataset
     ValidDataset = DataLoaderTrain(config.valid_images_dir, config.valid_annotation, tokenizer, augmentation)
-    valid_loader = DataLoader(ValidDataset, batch_size = 1, collate_fn = ValidDataset.collate_fn, num_workers = 8, shuffle = False)
+    valid_loader = DataLoader(ValidDataset, batch_size = 1, collate_fn = ValidDataset.collate_fn, num_workers = 4, shuffle = False)
     
     # Load Encoder
     pretrained_model = timm.create_model('vit_large_patch14_clip_224', pretrained=True, num_classes=0).to(config.device)
@@ -47,11 +47,6 @@ def main():
     decoder.load_state_dict(torch.load(config.decoder), strict=False)
     # Load Model
     model = VITModel(pretrained_model, decoder, tokenizer, config.device)
-
-    total_params = lora_total_params + model_trainable_params
-    # print("Total parameters (including LoRA):", total_params)
-    trainable_weights = [name for name, param in model.named_parameters() if param.requires_grad == True]
-    # print("Trainable parameters:", trainable_weights)
     
     if config.all_epoch:
         evaluation_epcoh = range(config.epoch)
