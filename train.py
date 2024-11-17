@@ -35,7 +35,7 @@ def main():
     train_loader = DataLoader(TrainDataset, batch_size = config.batch_size, collate_fn = TrainDataset.collate_fn, num_workers = 8, shuffle = True)
     # ValidDataset = DataLoaderTest(config.valid_images_dir, augmentation)
     ValidDataset = DataLoaderTrain(config.valid_images_dir, config.valid_annotation, tokenizer, augmentation)
-    valid_loader = DataLoader(ValidDataset, batch_size = 1, collate_fn = ValidDataset.collate_fn, num_workers = 8, shuffle = False)
+    valid_loader = DataLoader(ValidDataset, batch_size = config.batch_size, collate_fn = ValidDataset.collate_fn, num_workers = 8, shuffle = False)
     
     # Load Encoder
     pretrained_model = timm.create_model('vit_large_patch14_clip_224', pretrained=True, num_classes=0).to(device)
@@ -111,30 +111,29 @@ def main():
 
 
         val_loss = 0
-        output_data = {}
+        # output_data = {}
         for batch in tqdm(valid_loader):
             batch["images"]     = batch["images"].to(device)
             batch["input_ids"]  = batch["input_ids"].to(device)
             batch["attention_masks"] = batch["attention_masks"].to(device)
-            output_ids          = model.generate(batch["images"])
+            # output_ids          = model.generate(batch["images"])
             # output_ids          = model.greedy_search(batch["images"])
-            sentence            = tokenizer.decode(output_ids)
+            # sentence            = tokenizer.decode(output_ids)
             with torch.no_grad():
                 loss = model(   batch["images"],
                                 batch["input_ids"],
                                 batch["attention_masks"])
 
             val_loss += loss.item()
-            for i in range(len(batch["filenames"])):
-                # print(f"{batch['filenames'][i]}: {sentence}")
-                output_data[batch["filenames"][i]] = sentence
+            # for i in range(len(batch["filenames"])):
+            #    output_data[batch["filenames"][i]] = sentence
 
         print(f"Epoch {epoch} Validation Loss: {val_loss / len(valid_loader)}")
         # Save predictions to json
-        file_name = f"Epoch_{epoch}.json"
-        path = os.path.join(config.pred_file,file_name)
-        with open(path, "w") as f:
-            json.dump(output_data, f, indent=4)
+        #file_name = f"Epoch_{epoch}.json"
+        #path = os.path.join(config.pred_file,file_name)
+        #with open(path, "w") as f:
+        #    json.dump(output_data, f, indent=4)
 
 if __name__ == '__main__':
     torch.manual_seed(42)
