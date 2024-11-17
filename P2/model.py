@@ -13,7 +13,7 @@ class VITModel(nn.Module):
         self.pretrained_model = pretrained_model
 
         # The embedding dimension is: 384 for ViT-S. 768 for ViT-B. 1024 for ViT-L.
-        self.Linear = nn.Linear(1024, 768).to(device) 
+        self.Linear = nn.Linear(1664, 768).to(device) 
         
         # Decoder
         self.decoder   = decoder
@@ -62,10 +62,13 @@ class VITModel(nn.Module):
         pos = torch.arange(x.size()[1], dtype=torch.long, device=x.device).unsqueeze(0)
         x   = self.decoder.transformer.wte(x) + self.decoder.transformer.wpe(pos)
         x   = torch.cat([visual_embeds, x], dim=1)
-        x   = self.decoder.transformer.h(x)
-        x   = self.decoder.transformer.ln_f(x)
-        text_output = x[:, -1]
+        x   = self.decoder.transformer.ln_f(self.decoder.transformer.h(x))
+        print(x.shape)
+        text_output = x[:, -1,:]
+        print(text_output.shape)
         x   = self.decoder.lm_head(text_output)
+
+        print(x.shape)
         return x
 
     def generate(self, imgs):
@@ -76,7 +79,7 @@ class VITModel(nn.Module):
         # Encoder
         feature = self.pretrained_model.forward_features(imgs)
         feature = self.Linear(feature)
-        output  = self.beamsearch(feature)
+        output  = self.greedy_search(feature)
         return output
     
     def greedy_search(self, img, max_length=30):
@@ -87,20 +90,20 @@ class VITModel(nn.Module):
         device = img.device
         with torch.no_grad():
             encoder_feature = self.encoder.forward_features(img)
-            encoder_feature = self.feature_resize(encoder_feature)
+            encoder_feature = self.Linear(encoder_feature)
 
-        cur_state = torch.tensor([EOS]).to(device).unsqueeze(1)
+        cur_state = torch.tensor([BOS]).to(device).unsqueeze(1)
         for _ in range(max_length):
             with torch.no_grad():
-                next_prob = generator_decoder(cur_state, encoder_feature)
+                next_prob = self.decoder.generate(cur_state, encoder_feature)
 
             next_word = next_prob.argmax(dim=-1).unsqueeze(0)
-            if next_word.item() == EOS:
+            if next_word.item() == BOS:
                 break
             cur_state = torch.concat((cur_state, next_word), dim=-1)
         return cur_state[0, 1:].cpu().tolist()  # remove [BOS]
 
-    def beamsearch(self, feature, beams=4, max_length=30):
+    def beamsearch(self, feature, beams=3, max_length=30):
         cur_token = torch.tensor([BOS]).to(self.device).unsqueeze(1)
         next_p = self.generator_decoder(cur_token, feature)
         vocab_size = next_p.shape[-1]

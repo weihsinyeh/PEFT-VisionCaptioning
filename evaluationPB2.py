@@ -11,11 +11,11 @@ import loralib as lora
 def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument("--valid_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/val.json")
-    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_2")
-    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_2")
+    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_3")
+    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_3")
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/val")
-    parser.add_argument("--epoch",             type = int,      default = 0)
-    parser.add_argument("--all_epoch",         type = bool,      default = False)
+    parser.add_argument("--epoch",              type = int,     default = 0)
+    parser.add_argument("--all_epoch",          type = bool,    default = False)
     parser.add_argument("--decoder",            type = str,     default = "./decoder_model.bin")
     return parser.parse_args()
 
@@ -25,26 +25,29 @@ def main():
     # Create directories
     if config.pred_file is not None:
         os.makedirs(config.pred_file, exist_ok=True)
+        print(f"Prediction files will be saved to {config.pred_file}")
     if config.output_checkpoint is not None:
         os.makedirs(config.output_checkpoint, exist_ok=True)
+        print(f"Checkpoint files will be saved to {config.output_checkpoint}")
 
     # Set Device
-    config.device = "cuda" if torch.cuda.is_available() else "cpu"
+    config.device       = "cuda" if torch.cuda.is_available() else "cpu"
 
     # Load Tokenizer
-    tokenizer = BPETokenizer("encoder.json", "vocab.bpe")
+    tokenizer           = BPETokenizer("encoder.json", "vocab.bpe")
 
     # Load Dataset
-    ValidDataset = DataLoaderTrain(config.valid_images_dir, config.valid_annotation, tokenizer, augmentation)
-    valid_loader = DataLoader(ValidDataset, batch_size = 1, collate_fn = ValidDataset.collate_fn, num_workers = 4, shuffle = False)
+    ValidDataset        = DataLoaderTrain(config.valid_images_dir, config.valid_annotation, tokenizer, augmentation)
+    valid_loader        = DataLoader(ValidDataset, batch_size = 1, collate_fn = ValidDataset.collate_fn, num_workers = 4, shuffle = False)
     
     # Load Encoder
-    pretrained_model = timm.create_model('vit_large_patch14_clip_224', pretrained=True, num_classes=0).to(config.device)
+    pretrained_model    = timm.create_model('vit_gigantic_patch14_clip_224.laion2b', pretrained=True, num_classes=0).to(config.device)
     
     # Load Decoder
     deconder_config = Config(config.decoder)
     decoder = Decoder(deconder_config, config.device).to(config.device)
     decoder.load_state_dict(torch.load(config.decoder), strict=False)
+    
     # Load Model
     model = VITModel(pretrained_model, decoder, tokenizer, config.device)
     
@@ -58,10 +61,17 @@ def main():
         checkpoint_path = os.path.join(config.output_checkpoint,f"epoch_{epoch}.bin")
         model.eval()
         # Load
-        checkpoint = torch.load(checkpoint_path)
-        lora_params = checkpoint["lora_state_dict"]
+        checkpoint          = torch.load(checkpoint_path)
+        lora_params         = checkpoint["lora_state_dict"]
+        trainable_params    = checkpoint["trainable_params"]
         model.load_state_dict(lora_params, strict=False)
-        model.Linear.load_state_dict(checkpoint["trainable_params"])
+        model.Linear.load_state_dict(trainable_params)
+
+        loaded_lora_params_count = sum(p.numel() for p in lora_params.values())
+        loaded_trainable_params_count = sum(p.numel() for p in trainable_params.values())
+        print(f"Loaded LoRA parameters: {loaded_lora_params_count}")
+        print(f"Loaded trainable parameters: {loaded_trainable_params_count}")
+        print(f"Total loaded parameters: {loaded_lora_params_count + loaded_trainable_params_count}")
 
         output_data = {}
         for batch in tqdm(valid_loader):
@@ -72,6 +82,7 @@ def main():
             sentence            = tokenizer.decode(output_ids)
             for i in range(len(batch["filenames"])):
                 output_data[batch["filenames"][i]] = sentence
+                print(f"File: {batch['filenames'][i]} | Prediction: {sentence}")
 
         # Save predictions to json
         file_name = f"Epoch_{epoch}.json"

@@ -12,8 +12,8 @@ def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/train.json")
     parser.add_argument("--valid_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/val.json")
-    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_2")
-    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_2")
+    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_3")
+    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_3")
     parser.add_argument("--train_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/train")
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/val")
     parser.add_argument("--decoder",            type = str,     default = "./decoder_model.bin")
@@ -24,7 +24,15 @@ def parse():
 
 def main():
     config = parse()
+    # Create directories
+    if config.pred_file is not None:
+        os.makedirs(config.pred_file, exist_ok=True)
+        print(f"Prediction files will be saved to {config.pred_file}")
+    if config.output_checkpoint is not None:
+        os.makedirs(config.output_checkpoint, exist_ok=True)
+        print(f"Checkpoint files will be saved to {config.output_checkpoint}")
 
+    # Set Device
     device = "cuda" if torch.cuda.is_available() else "cpu"
     config.device = device
     # Load Tokenizer
@@ -38,7 +46,7 @@ def main():
     valid_loader = DataLoader(ValidDataset, batch_size = config.batch_size, collate_fn = ValidDataset.collate_fn, num_workers = 8, shuffle = False)
     
     # Load Encoder
-    pretrained_model = timm.create_model('vit_large_patch14_clip_224', pretrained=True, num_classes=0).to(device)
+    pretrained_model = timm.create_model('vit_gigantic_patch14_clip_224.laion2b', pretrained=True, num_classes=0).to(device)
     
     # Load Decoder
     deconder_config = Config(config.decoder)
@@ -69,7 +77,9 @@ def main():
     model_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
 
     total_params = lora_total_params + model_trainable_params
-    # print("Total parameters (including LoRA):", total_params)
+    print("Total parameters (only LoRA):", lora_total_params)
+    print("Trainable parameters (model_trainable_params):", model_trainable_params)
+    print("Total parameters (including LoRA):", total_params)
     trainable_weights = [
         name for name, param in model.named_parameters() if param.requires_grad == True
     ]

@@ -91,3 +91,14 @@ class Decoder(nn.Module):
         text_output = x[:, visual_embeds.size(1):]
         x = self.lm_head(text_output)
         return x
+
+    def generate(self, visual_embeds: Tensor, x: Tensor):
+        x = torch.narrow(x, 1, 0, min(x.size(1), self.block_size))
+        pos = torch.arange(x.size()[1], dtype=torch.long, device=x.device).unsqueeze(0)
+        x = self.transformer.wte(x) + self.transformer.wpe(pos)
+        x = torch.cat([visual_embeds, x], dim=1)
+        x = self.transformer.ln_f(self.transformer.h(x))
+        # Take only the text embeddings as the prediction token to Linear layer
+        text_output = x[:, -1,:]
+        x = self.lm_head(text_output)
+        return x
