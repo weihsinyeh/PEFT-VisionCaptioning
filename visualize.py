@@ -23,8 +23,8 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument("--valid_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/val.json")
-    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_4")
-    parser.add_argument("--checkpoint_path",    type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_4/epoch_0.bin")
+    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_new")
+    parser.add_argument("--checkpoint_path",    type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_new/epoch_0.bin")
 
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/val")
     parser.add_argument("--outimg",             type = str,     default = "./outputimg")
@@ -66,13 +66,9 @@ def visualize_attention(img, querys, keys, output_ids, img_name):
     # plt.colorbar()
     plt.savefig(f"{img_name}.png")
 
-def fetch_q(module, input, output):
-    query = output[1].detach()
-    hook_q.append(query.squeeze(0))
-
-def fetch_k(module, input, output):
-    key = output[2].detach()
-    hook_k.append(key.squeeze(0))
+attention_weights = []
+def fetch_attention_weights(module, input, output):
+    attention_weights.append(output[1].detach().cpu())
 
 def main():
     config = parse()
@@ -121,8 +117,7 @@ def main():
         hook_q = []
         hook_k = []
         for block in model.decoder.transformer.h:
-            block.register_forward_hook(fetch_q)
-            block.register_forward_hook(fetch_k)
+            block.attn.register_forward_hook(fetch_attention_weights)
 
         ori_img, img, filename = val_data
         img = img.to(device)

@@ -13,8 +13,8 @@ def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/train.json")
     parser.add_argument("--valid_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/val.json")
-    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_5")
-    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_5")
+    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_new")
+    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_new")
     parser.add_argument("--train_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/train")
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/val")
     parser.add_argument("--decoder",            type = str,     default = "./decoder_model.bin")
@@ -43,7 +43,7 @@ def main():
     TrainDataset = DataLoaderTrain(config.train_images_dir, config.train_annotation, tokenizer, augmentation)
     train_loader = DataLoader(TrainDataset, batch_size = config.batch_size, collate_fn = TrainDataset.collate_fn, num_workers = 8, shuffle = True)
     ValidDataset = DataLoaderTrain(config.valid_images_dir, config.valid_annotation, tokenizer, transform)
-    valid_loader = DataLoader(ValidDataset, batch_size = config.batch_size, collate_fn = ValidDataset.collate_fn, num_workers = 8, shuffle = False)
+    valid_loader = DataLoader(ValidDataset, batch_size = 1, collate_fn = ValidDataset.collate_fn, num_workers = 8, shuffle = False)
     
     # Load Encoder
     pretrained_model = timm.create_model(modelname, pretrained=True, num_classes=0).to(device)
@@ -141,7 +141,8 @@ def main():
 
             val_loss += loss.item()
             for i in range(len(batch["filenames"])):
-                output_data[batch["filenames"][i]] = sentence
+                filename = batch["filenames"][i]
+                output_data[filename] = sentence
 
         print(f"Epoch {epoch} Validation Loss: {val_loss / len(valid_loader)}")
         # Save predictions to json

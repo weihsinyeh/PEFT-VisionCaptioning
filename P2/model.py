@@ -48,8 +48,11 @@ class VITModel(nn.Module):
         # Encoder
         feature = self.pretrained_model.forward_features(imgs)
         feature = self.Linear(feature)
-        output  = self.greedy_search(feature)
-        return output
+        outputs = self.greedy_search(feature)
+        # Remove BOS
+        if outputs[0] == BOS:
+            outputs = outputs[1:]
+        return outputs
     
     def greedy_search(self, feature, max_length = 30):
         cur_token = torch.tensor([BOS], dtype=torch.long).to(self.device).unsqueeze(1)
