@@ -58,7 +58,6 @@ class DataLoaderTrain(Dataset):
         input_ids = []
         for caption in captions:
             input_id = self.tokenizer.encode(caption)
-            input_id = input_id[:28]
             if input_id[0] != BOS:
                 input_id.insert(0, BOS)
             if input_id[-1] != BOS:

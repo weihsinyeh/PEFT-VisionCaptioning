@@ -52,12 +52,19 @@ class VITModel(nn.Module):
         # Remove BOS
         if outputs[0] == BOS:
             outputs = outputs[1:]
+        for i in range(len(outputs)):
+            if outputs[i] == EOS:
+                outputs = outputs[:i]
+                break
         return outputs
     
     def greedy_search(self, feature, max_length = 30):
         cur_token = torch.tensor([BOS], dtype=torch.long).to(self.device).unsqueeze(1)
+        # attention_list = []
         for i in range(max_length):
-            next_prob   = self.decoder.generate(feature, cur_token)
+            next_prob = self.decoder(feature, cur_token)
+            #attention_list.append(att)
+            next_prob   = next_prob[:, -1,:]
             next_token  = next_prob.argmax(dim=-1).unsqueeze(1)
             if next_token.item() == EOS:
                 break

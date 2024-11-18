@@ -22,6 +22,11 @@ def main():
     config.device = device
     model_id = "llava-hf/llava-1.5-7b-hf"
 
+    # Check pred directory exist
+    if config.pred_file is not None:
+        os.makedirs(config.pred_file, exist_ok=True)
+        print(f"Prediction files will be saved to {config.pred_file}")
+
     ############ Load Tokenizer ############
     processor = AutoProcessor.from_pretrained(model_id)
 
@@ -29,32 +34,46 @@ def main():
     ValidDataset = DataLoaderTrain(config.valid_images_dir, config.valid_annotation)
     valid_loader = DataLoader(ValidDataset, batch_size = 1, collate_fn = ValidDataset.collate_fn)
     ############ Load Model ############
-    quantization_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16
-    )
+    model = LlavaForConditionalGeneration.from_pretrained(
+        model_id, 
+        torch_dtype=torch.float16, 
+        low_cpu_mem_usage=True, 
+    ).to(0)
 
-    model = LlavaForConditionalGeneration.from_pretrained(  model_id, torch_dtype=torch.float16, low_cpu_mem_usage=True).to(device)
+    # Define a chat histiry and use `apply_chat_template` to get correctly formatted prompt
+    # Each value in "content" has to be a list of dicts with types ("text", "image") 
+    conversation = [
+        {
 
-    prompts = ["Please describe this image",]
-    output = {}
+        "role": "user",
+        "content": [
+            {"type": "text", "text": "What are these?"},
+            {"type": "image"},
+            ],
+        },
+    ]
+
+    prompt = processor.apply_chat_template(conversation, add_generation_prompt=True)
+    outputs = {}
     with torch.no_grad():
         for batch in tqdm(valid_loader):
-            batch["images"]     = batch["images"].to(device)
+            batch["images"]     = batch["images"]
             batch["captions"]   = batch["captions"]
  
-            inputs = processor(prompts, batch["images"], padding=True, return_tensors="pt").to(device)
-            print(inputs)
-            output = model.generate(**inputs, max_new_tokens=20)
-            generated_text = processor.batch_decode(output, skip_special_tokens=True)
+            inputs = processor(images=batch["images"], text=prompt, return_tensors='pt').to(0, torch.float16)
+            output = model.generate(**inputs, max_new_tokens=200, do_sample=False, output_attention = True)
+            generated_text = processor.decode(output[0][2:], skip_special_tokens=True)
             for text in generated_text:
-                output[batch["file_name"]] = text
-
+                outputs[batch["filenames"][0]] = text.split("ASSISTANT:")[-1]
+            break
+    files = os.listdir(config.pred_file)
+    
+    # 過濾出以 'pred_' 開頭並且以 '.json' 結尾的檔案
+    pred_files = [file for file in files if file.startswith("pred_") and file.endswith(".json")]
+    path = os.path.join(config.pred_file, f"pred_{len(pred_files)}.json")
     with open(config.pred_file, "w") as f:
-        json.dump(output, f, indent=4)
+        json.dump(outputs, f, indent=4)
 
 if __name__ == '__main__':
     torch.manual_seed(42)
     main()
-
-# Reference : https://github.com/NielsRogge/Transformers-Tutorials/blob/master/LLaVa/Inference_with_LLaVa_for_multimodal_generation.ipynb

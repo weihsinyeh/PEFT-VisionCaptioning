@@ -8,3 +8,5 @@ hw3_data.zip
 decoder_model.bin
 outputlog*
 lora_test.py
+outputimg
+visualize.py

@@ -13,8 +13,8 @@ def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/train.json")
     parser.add_argument("--valid_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/val.json")
-    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_new")
-    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_new")
+    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_new3")
+    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_new3")
     parser.add_argument("--train_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/train")
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/val")
     parser.add_argument("--decoder",            type = str,     default = "./decoder_model.bin")
@@ -55,6 +55,7 @@ def main():
     # Load Model
     model = VITModel(pretrained_model, decoder, tokenizer, device)
 
+    # Set Trainable parameters
     lora.mark_only_lora_as_trainable(model)
 
     # Unfreeze the Projection layer
@@ -89,6 +90,13 @@ def main():
     # print("Trainable parameters:", trainable_weights)
     for epoch in range(config.epochs):
         ################ Train ################
+        # Set Trainable parameters
+        lora.mark_only_lora_as_trainable(model)
+
+        # Unfreeze the Projection layer
+        for param in model.Linear.parameters():
+            param.requires_grad = True
+
         train_loss = 0
         model.train()
         progress_bar = tqdm(train_loader, desc=f"Epoch {epoch+1}/{config.epochs}", unit="batch")
@@ -118,10 +126,10 @@ def main():
         ################ Evaluation ################
         model.eval()
         # Load
-        checkpoint = torch.load(checkpoint_path)
-        lora_params = checkpoint["lora_state_dict"]
-        model.load_state_dict(lora_params, strict=False)
-        model.Linear.load_state_dict(checkpoint["trainable_params"])
+        # checkpoint = torch.load(checkpoint_path)
+        # lora_params = checkpoint["lora_state_dict"]
+        # model.load_state_dict(lora_params, strict=False)
+        # model.Linear.load_state_dict(checkpoint["trainable_params"])
 
 
         val_loss = 0

@@ -25,7 +25,7 @@ class DataLoaderTrain(Dataset):
         # transform image only when training
         path = os.path.join(self.imagedir, self.datas[idx]["file_name"])
         image = Image.open(path).convert('RGB')
-        self.datas[idx]["image"] = self.transform(image)
+        self.datas[idx]["image"] = image
         return self.datas[idx]
 
     def __len__(self):
@@ -39,7 +39,6 @@ class DataLoaderTrain(Dataset):
             image_ids.append(item["image_id"])
             images.append(item["image"])
 
-        images = torch.stack(images, dim=0)
         return {    "filenames"       : filenames,
                     "captions"        : captions,
                     "images"          : images,

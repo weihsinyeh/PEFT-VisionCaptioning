@@ -17,12 +17,13 @@ class Attention(nn.Module):
 
     def __init__(self, cfg):
         super().__init__()
-        self.c_attn = lora.Linear(cfg.n_embd, 3 * cfg.n_embd, r = 16)
-        self.c_proj = lora.Linear(cfg.n_embd, cfg.n_embd, r = 16)
+        self.c_attn = lora.Linear(cfg.n_embd, 3 * cfg.n_embd, r = 32, lora_alpha = 64, lora_dropout = 0.3)
+        self.c_proj = lora.Linear(cfg.n_embd, cfg.n_embd, r = 32, lora_alpha = 64, lora_dropout = 0.3)
         self.n_head = cfg.n_head
         self.n_embd = cfg.n_embd
         size = cfg.block_size
         self.register_buffer('bias', torch.tril(torch.ones(size, size)).view(1, 1, size, size))
+        self.att_weights = None
 
     def forward(self, x):
         B, T, C = x.size() # batch, context, embedding
@@ -35,6 +36,7 @@ class Attention(nn.Module):
         att = (q @ k.transpose(-2, -1)) * (1.0 / math.sqrt(k.size(-1)))
         att = att.masked_fill(self.bias[:,:,:T,:T] == 0, float('-inf'))
         att = F.softmax(att, dim=-1)
+        # self.att_weights = att.clone().detach() 
         return self.c_proj((att @ v).transpose(1, 2).contiguous().view(B, T, C))
 
 class Block(nn.Module):
@@ -45,9 +47,9 @@ class Block(nn.Module):
         self.ln_2 = nn.LayerNorm(cfg.n_embd)
         self.attn = Attention(cfg)
         self.mlp = nn.Sequential(collections.OrderedDict([
-            ("c_fc", lora.Linear(cfg.n_embd, 4 * cfg.n_embd, r=16)),
+            ("c_fc", lora.Linear(cfg.n_embd, 4 * cfg.n_embd, r = 32, lora_alpha=64, lora_dropout=0.3)),
             ('act', nn.GELU(approximate='tanh')),
-            ("c_proj", lora.Linear(4 * cfg.n_embd, cfg.n_embd, r=16))
+            ("c_proj", lora.Linear(4 * cfg.n_embd, cfg.n_embd, r = 32, lora_alpha=64, lora_dropout=0.3))
         ]))
 
     def forward(self, x):
@@ -65,12 +67,12 @@ class Decoder(nn.Module):
         self.block_size = cfg.block_size
         self.device = device
         self.transformer = nn.ModuleDict(dict(
-            wte=lora.Embedding(cfg.vocab_size, cfg.n_embd, r=16),
-            wpe=lora.Embedding(cfg.block_size, cfg.n_embd, r=16),
+            wte=nn.Embedding(cfg.vocab_size, cfg.n_embd),
+            wpe=nn.Embedding(cfg.block_size, cfg.n_embd),
             h = nn.Sequential(*[Block(cfg) for _ in range(cfg.n_layer)]),
             ln_f = nn.LayerNorm(cfg.n_embd)
         ))
-        self.lm_head = lora.Linear(cfg.n_embd, cfg.vocab_size, bias=False, r=16)
+        self.lm_head = lora.Linear(cfg.n_embd, cfg.vocab_size, bias=False, r = 32, lora_alpha=64, lora_dropout=0.3)
         self.transformer.wte.weight = self.lm_head.weight
         # load checkpoint
         if self.cfg.checkpoint is not None:
@@ -87,12 +89,7 @@ class Decoder(nn.Module):
         x = self.transformer.wte(x) + self.transformer.wpe(pos)
         x = torch.cat([visual_embeds, x], dim=1)
 
-        combined_embeds = x.clone().detach()
-
         x = self.transformer.h(x)
-
-        transformed_embeds = x.clone().detach()
-
         text_output = x[:, visual_embeds.size(1):]
         x = self.transformer.ln_f(text_output)
         # Take only the text embeddings as the prediction token to Linear layer
