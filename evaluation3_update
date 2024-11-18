@@ -1,0 +1,846 @@
+Prediction files will be saved to /project/g/r13922043/hw3_output/P2_pred_5
+Checkpoint files will be saved to /project/g/r13922043/hw3_output/P2_checkpoint_5
+Loaded LoRA parameters: 4020768
+Loaded trainable parameters: 1278720
+Total loaded parameters: 5299488
+File: 000000000000 | Prediction: <|endoftext|>
+
+
+
+
+
+
+
+The most beautiful and the most beautiful
+
+The most beautiful
+
+The most beautiful
+
+The most beautiful
+File: 000000000000 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 198, 198, 464, 749, 4950, 290, 262, 749, 4950, 198, 198, 464, 749, 4950, 198, 198, 464, 749, 4950, 198, 198, 464, 749, 4950]
+File: 000000000000 | input_ids: tensor([50256, 12510, 18791,  5586,   287,   257,  2119,  1474,   257, 10162,
+           13, 50256], device='cuda:0')
+File: 000000000001 | Prediction: <|endoftext|>
+The National Guard, the National, the National, the National, the National, the National, the National, the National, the National, the
+File: 000000000001 | output_ids: [50256, 198, 464, 2351, 4932, 11, 262, 2351, 11, 262, 2351, 11, 262, 2351, 11, 262, 2351, 11, 262, 2351, 11, 262, 2351, 11, 262, 2351, 11, 262, 2351, 11, 262]
+File: 000000000001 | input_ids: tensor([50256,    32, 32166,   319,   257, 18757,  5983,   262,   835,   287,
+          257, 16134,    13, 50256], device='cuda:0')
+File: 000000000002 | Prediction: <|endoftext|>
+
+
+
+The city of the city of the city of the city of the city of the city of the city of the city of the city
+File: 000000000002 | output_ids: [50256, 198, 198, 198, 198, 464, 1748, 286, 262, 1748, 286, 262, 1748, 286, 262, 1748, 286, 262, 1748, 286, 262, 1748, 286, 262, 1748, 286, 262, 1748, 286, 262, 1748]
+File: 000000000002 | input_ids: tensor([50256,    32,  5752,   286, 19584, 39404,  5586,   287,  2166,   286,
+          257, 10808,    13, 50256], device='cuda:0')
+File: 000000000003 | Prediction: <|endoftext|>
+The kitchen is the kitchen is the kitchen. The is the kitchen. The is the kitchen. The is the kitchen. The is the kitchen.
+File: 000000000003 | output_ids: [50256, 198, 464, 9592, 318, 262, 9592, 318, 262, 9592, 13, 383, 318, 262, 9592, 13, 383, 318, 262, 9592, 13, 383, 318, 262, 9592, 13, 383, 318, 262, 9592, 13]
+File: 000000000003 | input_ids: tensor([50256,    32,  9592,   351,   257,  1598,  3753,  1353,   290, 13510,
+        43064,    11,  1863,   351,   257,  2330,  9433,   373,   372,   739,
+          262,  3753,    13, 50256], device='cuda:0')
+File: 000000000004 | Prediction: <|endoftext|>
+
+The following is a very simple and simple way of doing the work of the two-way system.
+The following is a very simple and
+File: 000000000004 | output_ids: [50256, 198, 198, 464, 1708, 318, 257, 845, 2829, 290, 2829, 835, 286, 1804, 262, 670, 286, 262, 734, 12, 1014, 1080, 13, 198, 464, 1708, 318, 257, 845, 2829, 290]
+File: 000000000004 | input_ids: tensor([50256,    32,  1363,  3644,   319,   257,  6915,   287,   257,  2119,
+           13, 50256], device='cuda:0')
+File: 000000000005 | Prediction: <|endoftext|>
+
+Serves 1 cup of 1 cup
+
+1 cup of 1 cup of 1 cup of 1 cup of 1 cup of 1 cup of 1
+File: 000000000005 | output_ids: [50256, 198, 198, 50, 11184, 352, 6508, 286, 352, 6508, 198, 198, 16, 6508, 286, 352, 6508, 286, 352, 6508, 286, 352, 6508, 286, 352, 6508, 286, 352, 6508, 286, 352]
+File: 000000000005 | input_ids: tensor([50256,  4550, 15847, 13701,   284,  8631,  2330, 11464,   329,   257,
+         5448,  8073,    13, 50256], device='cuda:0')
+File: 000000000006 | Prediction: <|endoftext|>.
+
+
+The first time I've ever seen a snowman in the snow.
+
+The first time I've ever seen a snowman
+File: 000000000006 | output_ids: [50256, 13, 198, 198, 198, 464, 717, 640, 314, 1053, 1683, 1775, 257, 6729, 805, 287, 262, 6729, 13, 198, 198, 464, 717, 640, 314, 1053, 1683, 1775, 257, 6729, 805]
+File: 000000000006 | input_ids: tensor([50256, 14945,   661, 11300,   510,   257, 12788,  5762,  6729,  7733,
+           13,   220, 50256], device='cuda:0')
+File: 000000000007 | Prediction: <|endoftext|>
+A lot of people who are not able to read and who are not able to read.
+
+A lot of people are not able to read
+File: 000000000007 | output_ids: [50256, 198, 32, 1256, 286, 661, 508, 389, 407, 1498, 284, 1100, 290, 508, 389, 407, 1498, 284, 1100, 13, 198, 198, 32, 1256, 286, 661, 389, 407, 1498, 284, 1100]
+File: 000000000007 | input_ids: tensor([50256,    32,  1862,  2415,  6797,   287,   257, 20922, 13970,   281,
+         1280, 20922,  3644,    13, 50256], device='cuda:0')
+File: 000000000008 | Prediction: <|endoftext|>
+The first time is the time to be the time to be the time to be the time to be the time to be the time to be the
+File: 000000000008 | output_ids: [50256, 198, 464, 717, 640, 318, 262, 640, 284, 307, 262, 640, 284, 307, 262, 640, 284, 307, 262, 640, 284, 307, 262, 640, 284, 307, 262, 640, 284, 307, 262]
+File: 000000000008 | input_ids: tensor([50256,    32,  3155,   286,  1450,  5055,  1306,   284,  4512,  8339,
+           13, 50256], device='cuda:0')
+File: 000000000009 | Prediction: <|endoftext|>.
+
+
+
+
+
+
+A small, small, and small.
+
+The "
+
+The "
+
+The "
+
+
+File: 000000000009 | output_ids: [50256, 13, 198, 198, 198, 198, 198, 198, 198, 32, 1402, 11, 1402, 11, 290, 1402, 13, 198, 198, 464, 366, 198, 198, 464, 366, 198, 198, 464, 366, 198, 198]
+File: 000000000009 | input_ids: tensor([50256,    64, 20698,   326,  3073,   588,   257,  8848,   318,  1306,
+          284,   257, 15563, 50256], device='cuda:0')
+File: 000000000010 | Prediction: <|endoftext|>
+The first time is the time to win the lottery...
+
+The first is the time to win the lottery.
+The first is
+File: 000000000010 | output_ids: [50256, 198, 464, 717, 640, 318, 262, 640, 284, 1592, 262, 22098, 13, 13, 13, 198, 198, 464, 717, 318, 262, 640, 284, 1592, 262, 22098, 13, 198, 464, 717, 318]
+File: 000000000010 | input_ids: tensor([50256,    32,  2933,  4769,   257,   983, 10444,   290,  2712,   257,
+         2008,   983,    13, 50256], device='cuda:0')
+File: 000000000011 | Prediction: <|endoftext|>
+This is a very simple recipe for the same. It is a very simple recipe. It is a very simple recipe. It is a very simple
+File: 000000000011 | output_ids: [50256, 198, 1212, 318, 257, 845, 2829, 8364, 329, 262, 976, 13, 632, 318, 257, 845, 2829, 8364, 13, 632, 318, 257, 845, 2829, 8364, 13, 632, 318, 257, 845, 2829]
+File: 000000000011 | input_ids: tensor([50256,    64,  3425,  1336,   286, 13701, 16416,   510,  1402,   351,
+          257,   617, 46794,   319,  1353, 50256], device='cuda:0')
+File: 000000000012 | Prediction: <|endoftext|>
+A man jumps into a state of being a man, and a man, and a man, and a man, and a man, and a
+File: 000000000012 | output_ids: [50256, 198, 32, 582, 18045, 656, 257, 1181, 286, 852, 257, 582, 11, 290, 257, 582, 11, 290, 257, 582, 11, 290, 257, 582, 11, 290, 257, 582, 11, 290, 257]
+File: 000000000012 | input_ids: tensor([50256,    64,  1048, 14284,   287,   262,  1633,   981,  2712,   351,
+          257,  1216,   271, 20963, 50256], device='cuda:0')
+File: 000000000013 | Prediction: <|endoftext|>
+The most beautiful and the most beautiful and the most beautiful and the most beautiful and the most beautiful and the most beautiful and the most beautiful and the
+File: 000000000013 | output_ids: [50256, 198, 464, 749, 4950, 290, 262, 749, 4950, 290, 262, 749, 4950, 290, 262, 749, 4950, 290, 262, 749, 4950, 290, 262, 749, 4950, 290, 262, 749, 4950, 290, 262]
+File: 000000000013 | input_ids: tensor([50256,  1858,   389,  1440,   410,  1386,   326,   423, 35113, 42645,
+          319,   606,    13, 50256], device='cuda:0')
+File: 000000000014 | Prediction: <|endoftext|>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File: 000000000014 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198]
+File: 000000000014 | input_ids: tensor([50256,    32,   410,   589,  5586,   319,  1353,   286,   257,  3084,
+          351, 12734,   287,   340,    13, 50256], device='cuda:0')
+File: 000000000015 | Prediction: <|endoftext|>
+The snow is a long day in the day.
+
+The day is a day of the sun.
+
+The day is a day of
+File: 000000000015 | output_ids: [50256, 198, 464, 6729, 318, 257, 890, 1110, 287, 262, 1110, 13, 198, 198, 464, 1110, 318, 257, 1110, 286, 262, 4252, 13, 198, 198, 464, 1110, 318, 257, 1110, 286]
+File: 000000000015 | input_ids: tensor([50256,    64,  6729,  1341,   959,  5055,  1871,   262,  7331,  7150,
+        50256], device='cuda:0')
+File: 000000000016 | Prediction: <|endoftext|>
+A man who is a person who is a person who is a person who is a person who is a person who is a a person who is
+File: 000000000016 | output_ids: [50256, 198, 32, 582, 508, 318, 257, 1048, 508, 318, 257, 1048, 508, 318, 257, 1048, 508, 318, 257, 1048, 508, 318, 257, 1048, 508, 318, 257, 257, 1048, 508, 318]
+File: 000000000016 | input_ids: tensor([50256,    32,   582,  7348,   832,   262,  1633,   981, 10311,   257,
+        22647,  3526,    13, 50256], device='cuda:0')
+File: 000000000017 | Prediction: <|endoftext|> the perfect way to make a perfect to make a perfect to make a perfect to make a perfect to make a perfect to make a perfect to make a
+File: 000000000017 | output_ids: [50256, 262, 2818, 835, 284, 787, 257, 2818, 284, 787, 257, 2818, 284, 787, 257, 2818, 284, 787, 257, 2818, 284, 787, 257, 2818, 284, 787, 257, 2818, 284, 787, 257]
+File: 000000000017 | input_ids: tensor([50256,    32, 14256,   351,   257, 16416,  4814,   318,  5586,   319,
+          257, 14256,  1302,    13, 50256], device='cuda:0')
+File: 000000000018 | Prediction: <|endoftext|>
+
+
+
+The kitchen is a a a a a a a a a a a a a a a a a a a a a a a
+File: 000000000018 | output_ids: [50256, 198, 198, 198, 198, 464, 9592, 318, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257]
+File: 000000000018 | input_ids: tensor([50256,    32,  3155,   286,   336, 10141,   389,   287,  2166,   286,
+          257,  9592,  2318, 50256], device='cuda:0')
+File: 000000000019 | Prediction: <|endoftext|>
+The snow is a snow- a snow- a snow- a snow- a snow- a snow- a snow- a snow- a snow
+File: 000000000019 | output_ids: [50256, 198, 464, 6729, 318, 257, 6729, 12, 257, 6729, 12, 257, 6729, 12, 257, 6729, 12, 257, 6729, 12, 257, 6729, 12, 257, 6729, 12, 257, 6729, 12, 257, 6729]
+File: 000000000019 | input_ids: tensor([50256,  8117,   318,   257,  2415,  4769,   257, 25510,  6155,   287,
+          262,  6729, 50256], device='cuda:0')
+File: 000000000020 | Prediction: <|endoftext|>
+The world is the world is the world is the world is the world is the world is the world is the world is the world is the world
+File: 000000000020 | output_ids: [50256, 198, 464, 995, 318, 262, 995, 318, 262, 995, 318, 262, 995, 318, 262, 995, 318, 262, 995, 318, 262, 995, 318, 262, 995, 318, 262, 995, 318, 262, 995]
+File: 000000000020 | input_ids: tensor([50256,  7571, 37370, 21223,  5055,   319,   257,  2214,  1978, 40470,
+          319,  4077,  8701,    13, 50256], device='cuda:0')
+File: 000000000021 | Prediction: <|endoftext|>
+A fire is a fire, a fire, a fire, a fire, a fire, a fire, a fire, a fire, a fire
+File: 000000000021 | output_ids: [50256, 198, 32, 2046, 318, 257, 2046, 11, 257, 2046, 11, 257, 2046, 11, 257, 2046, 11, 257, 2046, 11, 257, 2046, 11, 257, 2046, 11, 257, 2046, 11, 257, 2046]
+File: 000000000021 | input_ids: tensor([50256,    64,  2975,   326,   468,   617,  6729,   477,  1088,   340,
+        50256], device='cuda:0')
+File: 000000000022 | Prediction: <|endoftext|>
+A little boy is a little is a little is a little is a a a a a a a a a a a a a a a a
+File: 000000000022 | output_ids: [50256, 198, 32, 1310, 2933, 318, 257, 1310, 318, 257, 1310, 318, 257, 1310, 318, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257]
+File: 000000000022 | input_ids: tensor([50256,    32,  5141,   319, 22647,  3526, 18045,   625,   262, 27763,
+        50256], device='cuda:0')
+File: 000000000023 | Prediction: <|endoftext|>
+The kitchen is the kitchen is the kitchen. The is the kitchen. The is the kitchen. The is the kitchen. The is the kitchen.
+File: 000000000023 | output_ids: [50256, 198, 464, 9592, 318, 262, 9592, 318, 262, 9592, 13, 383, 318, 262, 9592, 13, 383, 318, 262, 9592, 13, 383, 318, 262, 9592, 13, 383, 318, 262, 9592, 13]
+File: 000000000023 | input_ids: tensor([50256,    32,  9592,   326,   468,   257,  4274, 14361,   287,   262,
+        43064,   290,   257, 42596,  5186, 27635,  1353,   287,   262,  3753,
+           13, 50256], device='cuda:0')
+File: 000000000024 | Prediction: <|endoftext|>
+The kitchen is the kitchen is the kitchen. The kitchen is the. The kitchen is the. The kitchen is the. The kitchen is the.
+File: 000000000024 | output_ids: [50256, 198, 464, 9592, 318, 262, 9592, 318, 262, 9592, 13, 383, 9592, 318, 262, 13, 383, 9592, 318, 262, 13, 383, 9592, 318, 262, 13, 383, 9592, 318, 262, 13]
+File: 000000000024 | input_ids: tensor([50256,    32,  9592,   351,   257,  3797,  6155,  1613,   257, 30500,
+        30967,    13, 50256], device='cuda:0')
+File: 000000000025 | Prediction: <|endoftext|>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File: 000000000025 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198]
+File: 000000000025 | input_ids: tensor([50256,    32,  3084,   351, 13375,   286, 29777,   290,  8234,    13,
+        50256], device='cuda:0')
+File: 000000000026 | Prediction: <|endoftext|>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File: 000000000026 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198]
+File: 000000000026 | input_ids: tensor([50256, 12510,   661,   287,   670, 22551,   290,  1490,   669,  5055,
+         1978,   287,  2166,   286,  2972,  3858,   286,   836,  5500,    13,
+        50256], device='cuda:0')
+File: 000000000027 | Prediction: <|endoftext|> the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the
+File: 000000000027 | output_ids: [50256, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262]
+File: 000000000027 | input_ids: tensor([50256,    32,  2933,  7720,   257, 12187,   287,   262,  5485,   286,
+          257, 22647,  3526,    13, 50256], device='cuda:0')
+File: 000000000028 | Prediction: <|endoftext|>
+
+The most popular and interesting way to to to to to to to to to to to to to to to to to to to to to to
+File: 000000000028 | output_ids: [50256, 198, 198, 464, 749, 2968, 290, 3499, 835, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284]
+File: 000000000028 | input_ids: tensor([50256,    32,  3084, 20633,   351,  6041,   286,  1180, 16396, 12734,
+           13, 50256], device='cuda:0')
+File: 000000000029 | Prediction: <|endoftext|> the game of the game of the game of the game of the game of the game of the game of the game of the game of the game of
+File: 000000000029 | output_ids: [50256, 262, 983, 286, 262, 983, 286, 262, 983, 286, 262, 983, 286, 262, 983, 286, 262, 983, 286, 262, 983, 286, 262, 983, 286, 262, 983, 286, 262, 983, 286]
+File: 000000000029 | input_ids: tensor([50256,    32,  4708,  9283,  4769,   465,  7365,   379,  1363,  2779,
+           13, 50256], device='cuda:0')
+File: 000000000030 | Prediction: <|endoftext|>
+
+The main feature of the above is the ability to take a picture of the world.
+
+The main feature of the above is the ability
+File: 000000000030 | output_ids: [50256, 198, 198, 464, 1388, 3895, 286, 262, 2029, 318, 262, 2694, 284, 1011, 257, 4286, 286, 262, 995, 13, 198, 198, 464, 1388, 3895, 286, 262, 2029, 318, 262, 2694]
+File: 000000000030 | input_ids: tensor([50256,    32,  3155,   286,   661,  5586,   319,  1353,   286,   257,
+        13510,  7624,    13, 50256], device='cuda:0')
+File: 000000000031 | Prediction: <|endoftext|>
+A few years ago
+
+A few years ago
+A few years ago
+A few years ago
+A few few few few few few few
+File: 000000000031 | output_ids: [50256, 198, 32, 1178, 812, 2084, 198, 198, 32, 1178, 812, 2084, 198, 32, 1178, 812, 2084, 198, 32, 1178, 812, 2084, 198, 32, 1178, 1178, 1178, 1178, 1178, 1178, 1178]
+File: 000000000031 | input_ids: tensor([50256,    64,  4171, 19422,  7779,  5025,   379,   257,  2245,  1051,
+        50256], device='cuda:0')
+File: 000000000032 | Prediction: <|endoftext|>
+The "K-
+
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+File: 000000000032 | output_ids: [50256, 198, 464, 366, 42, 12, 198, 198, 198, 12, 198, 198, 12, 198, 198, 12, 198, 198, 12, 198, 198, 12, 198, 198, 12, 198, 198, 12, 198, 198, 12]
+File: 000000000032 | input_ids: tensor([50256,    32,   582,   326,   318,  5055,   287,   262,  6450,    13,
+        50256], device='cuda:0')
+File: 000000000033 | Prediction: <|endoftext|>
+The "L"L"L"L" is the "L" is the "L" is the "L" is the "L
+File: 000000000033 | output_ids: [50256, 198, 464, 366, 43, 1, 43, 1, 43, 1, 43, 1, 318, 262, 366, 43, 1, 318, 262, 366, 43, 1, 318, 262, 366, 43, 1, 318, 262, 366, 43]
+File: 000000000033 | input_ids: tensor([50256,    32,  3644, 10718,   379,   257,  7541,  6915,    11,   290,
+          262, 20450,   318,   319,    13, 50256], device='cuda:0')
+File: 000000000034 | Prediction: <|endoftext|>
+
+The "L"The "L" in the " is the " in the " in the " in the " in the " in the
+File: 000000000034 | output_ids: [50256, 198, 198, 464, 366, 43, 1, 464, 366, 43, 1, 287, 262, 366, 318, 262, 366, 287, 262, 366, 287, 262, 366, 287, 262, 366, 287, 262, 366, 287, 262]
+File: 000000000034 | input_ids: tensor([50256,    32,  1748,  4979,  6737,   290,  4675,   379,  1755,    13,
+        50256], device='cuda:0')
+File: 000000000035 | Prediction: <|endoftext|>
+The average age of the time when a kid is about 6.
+The average age of the time when a kid is about is about.
+
+File: 000000000035 | output_ids: [50256, 198, 464, 2811, 2479, 286, 262, 640, 618, 257, 5141, 318, 546, 718, 13, 198, 464, 2811, 2479, 286, 262, 640, 618, 257, 5141, 318, 546, 318, 546, 13, 198]
+File: 000000000035 | input_ids: tensor([50256,    32,  1310,  1200,  5586,   287,  2166,   286,   257, 13224,
+         4964, 45038,   318,   319,   262,  3159,    13, 50256],
+       device='cuda:0')
+File: 000000000036 | Prediction: <|endoftext|>
+
+The following is the following is the following is the following is the following is the following is the following is the following is the following is the
+File: 000000000036 | output_ids: [50256, 198, 198, 464, 1708, 318, 262, 1708, 318, 262, 1708, 318, 262, 1708, 318, 262, 1708, 318, 262, 1708, 318, 262, 1708, 318, 262, 1708, 318, 262, 1708, 318, 262]
+File: 000000000036 | input_ids: tensor([50256,    32,  7684,   286, 17025,  8960,   287,   257, 46753,  5140,
+          287,   262, 12269, 50256], device='cuda:0')
+File: 000000000037 | Prediction: <|endoftext|> the skier                           
+File: 000000000037 | output_ids: [50256, 262, 1341, 959, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220, 220]
+File: 000000000037 | input_ids: tensor([50256,    32,   582,   318, 13226,   465,  1110,   286, 41348,    11,
+         2111,   284,  2652,   510, 12178,    13,   220, 50256],
+       device='cuda:0')
+File: 000000000038 | Prediction: <|endoftext|>
+The "The "The "The " is the " is the " is the " is the " is the " " is the " " is
+File: 000000000038 | output_ids: [50256, 198, 464, 366, 464, 366, 464, 366, 464, 366, 318, 262, 366, 318, 262, 366, 318, 262, 366, 318, 262, 366, 318, 262, 366, 366, 318, 262, 366, 366, 318]
+File: 000000000038 | input_ids: tensor([50256,   464, 13076,   286,   257,   582,   338,  1182,   318,  1306,
+          284,   257,   410,   589,   286, 12734,    13, 50256],
+       device='cuda:0')
+File: 000000000039 | Prediction: <|endoftext|>
+
+The most
+The most popular and the most popular.
+
+The most popular is the most popular.
+The most popular is the most
+File: 000000000039 | output_ids: [50256, 198, 198, 464, 749, 198, 464, 749, 2968, 290, 262, 749, 2968, 13, 198, 198, 464, 749, 2968, 318, 262, 749, 2968, 13, 198, 464, 749, 2968, 318, 262, 749]
+File: 000000000039 | input_ids: tensor([50256, 11545,  9053,  1489,   945,   319,   257, 10481,  1474,   262,
+         1660,   220, 50256], device='cuda:0')
+File: 000000000040 | Prediction: <|endoftext|>
+The "museum"museum"museum"museum"museum"museum"museum"museum"museum"
+File: 000000000040 | output_ids: [50256, 198, 464, 366, 76, 6744, 1, 76, 6744, 1, 76, 6744, 1, 76, 6744, 1, 76, 6744, 1, 76, 6744, 1, 76, 6744, 1, 76, 6744, 1, 76, 6744, 1]
+File: 000000000040 | input_ids: tensor([50256,    32,  2119,   351,   281,  6565,   290,  1280, 30500,   290,
+          257, 18316,   286, 14096,    13, 50256], device='cuda:0')
+File: 000000000041 | Prediction: <|endoftext|>
+
+The "The most beautiful place in the world, the most beautiful place in the world, the most beautiful place in the world, the most
+File: 000000000041 | output_ids: [50256, 198, 198, 464, 366, 464, 749, 4950, 1295, 287, 262, 995, 11, 262, 749, 4950, 1295, 287, 262, 995, 11, 262, 749, 4950, 1295, 287, 262, 995, 11, 262, 749]
+File: 000000000041 | input_ids: tensor([50256, 21834,   661,   319,   257, 10481,   351,   257,   479,   578,
+         7348,   287,   262,  6766, 50256], device='cuda:0')
+File: 000000000042 | Prediction: <|endoftext|>
+
+
+
+The world is a world where the world is a world where the world is a world where the world is a world where the world
+File: 000000000042 | output_ids: [50256, 198, 198, 198, 198, 464, 995, 318, 257, 995, 810, 262, 995, 318, 257, 995, 810, 262, 995, 318, 257, 995, 810, 262, 995, 318, 257, 995, 810, 262, 995]
+File: 000000000042 | input_ids: tensor([50256,    64, 20276,  4590,   286,   617,   661,  5586,   739,   281,
+        25510,   220, 50256], device='cuda:0')
+File: 000000000043 | Prediction: <|endoftext|>
+
+
+
+
+
+The world is a world of a world.
+
+The world is a world of a world.
+
+The world
+File: 000000000043 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 464, 995, 318, 257, 995, 286, 257, 995, 13, 198, 198, 464, 995, 318, 257, 995, 286, 257, 995, 13, 198, 198, 464, 995]
+File: 000000000043 | input_ids: tensor([50256,    32, 13224,  3644,  5586,   319,  1353,   286,   257,  3084,
+           13, 50256], device='cuda:0')
+File: 000000000044 | Prediction: <|endoftext|>, I am not a little I am a little, I am a little, I am a little, I am a little, I am a little
+File: 000000000044 | output_ids: [50256, 11, 314, 716, 407, 257, 1310, 314, 716, 257, 1310, 11, 314, 716, 257, 1310, 11, 314, 716, 257, 1310, 11, 314, 716, 257, 1310, 11, 314, 716, 257, 1310]
+File: 000000000044 | input_ids: tensor([50256,  2025,  2607,  6915,   351,  3644,  5112,    11, 28260,    11,
+          290,   670,  9473,  6622,   281,  6538,   338,  1762,  9965,   286,
+        17141,    11, 11464,    11,   290, 13701,    13, 50256],
+       device='cuda:0')
+File: 000000000045 | Prediction: <|endoftext|>
+The following is a very common and a common and a common and a common and and and and and and and and and and and and and and
+File: 000000000045 | output_ids: [50256, 198, 464, 1708, 318, 257, 845, 2219, 290, 257, 2219, 290, 257, 2219, 290, 257, 2219, 290, 290, 290, 290, 290, 290, 290, 290, 290, 290, 290, 290, 290, 290]
+File: 000000000045 | input_ids: tensor([50256,    32,  6614,  6427,   625,   257, 25451,    11,   319,   257,
+         1598,  1110,    13, 50256], device='cuda:0')
+File: 000000000046 | Prediction: <|endoftext|>
+The first time I have ever been a a a a a a a a a a a a a a a a a a a a a a
+File: 000000000046 | output_ids: [50256, 198, 464, 717, 640, 314, 423, 1683, 587, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257]
+File: 000000000046 | input_ids: tensor([50256,    64,  2576,   326,   318,   319,   257, 20790,  2184,   351,
+          257, 37391, 50256], device='cuda:0')
+File: 000000000047 | Prediction: <|endoftext|>
+The cat is a very cat.
+
+The cat is a very cat.
+The cat is a very cat.
+The cat is a
+File: 000000000047 | output_ids: [50256, 198, 464, 3797, 318, 257, 845, 3797, 13, 198, 198, 464, 3797, 318, 257, 845, 3797, 13, 198, 464, 3797, 318, 257, 845, 3797, 13, 198, 464, 3797, 318, 257]
+File: 000000000047 | input_ids: tensor([50256,    32,  3797,  5055,   287,  2166,   286,   257, 31557,   319,
+          257, 31557,  1302,    13, 50256], device='cuda:0')
+File: 000000000048 | Prediction: <|endoftext|> the "Boat" in the name of the "
+
+The "Boat" is a popular name for the "Boat" and "
+File: 000000000048 | output_ids: [50256, 262, 366, 33, 15073, 1, 287, 262, 1438, 286, 262, 366, 198, 198, 464, 366, 33, 15073, 1, 318, 257, 2968, 1438, 329, 262, 366, 33, 15073, 1, 290, 366]
+File: 000000000048 | input_ids: tensor([50256,  7571,   661, 16299,   319,  9053, 11490,   287,   262,  9151,
+           13, 50256], device='cuda:0')
+File: 000000000049 | Prediction: <|endoftext|>
+The first time we have been in the past.
+
+The first time we have been in the past.
+
+The first time we have
+File: 000000000049 | output_ids: [50256, 198, 464, 717, 640, 356, 423, 587, 287, 262, 1613, 13, 198, 198, 464, 717, 640, 356, 423, 587, 287, 262, 1613, 13, 198, 198, 464, 717, 640, 356, 423]
+File: 000000000049 | input_ids: tensor([50256,    38,   343,  2001,   274,  6155,  1474,  1660, 11191,   416,
+          257,  8222,    13, 50256], device='cuda:0')
+File: 000000000050 | Prediction: <|endoftext|>
+
+The statue of the "The Great One"
+
+The statue of the Great One of the World, the "The Great One of the
+File: 000000000050 | output_ids: [50256, 198, 198, 464, 15207, 286, 262, 366, 464, 3878, 1881, 1, 198, 198, 464, 15207, 286, 262, 3878, 1881, 286, 262, 2159, 11, 262, 366, 464, 3878, 1881, 286, 262]
+File: 000000000050 | input_ids: tensor([50256,    64, 21190, 20950, 10718,   287,   262,  3504,   286,   257,
+         3952,  1989,   220, 50256], device='cuda:0')
+File: 000000000051 | Prediction: <|endoftext|>
+
+A
+
+A
+
+A
+
+A
+A
+A
+A
+A
+A
+
+A
+
+A
+
+
+File: 000000000051 | output_ids: [50256, 198, 198, 32, 198, 198, 32, 198, 198, 32, 198, 198, 32, 198, 32, 198, 32, 198, 32, 198, 32, 198, 32, 198, 198, 32, 198, 198, 32, 198, 198]
+File: 000000000051 | input_ids: tensor([50256,    32,  4590,   286,   257,  5581, 28539,   257, 24832,    13,
+        50256], device='cuda:0')
+File: 000000000052 | Prediction: <|endoftext|>
+The "junki"j" is a" is a" is a" is a" is a" is a" is a"
+File: 000000000052 | output_ids: [50256, 198, 464, 366, 73, 2954, 72, 1, 73, 1, 318, 257, 1, 318, 257, 1, 318, 257, 1, 318, 257, 1, 318, 257, 1, 318, 257, 1, 318, 257, 1]
+File: 000000000052 | input_ids: tensor([50256,    64,   582,   287,  3095,  1633,   981, 10311,   257,  5584,
+         7161, 50256], device='cuda:0')
+File: 000000000053 | Prediction: <|endoftext|>
+
+The "The most beautiful thing in the world"
+
+The most beautiful thing in the world, the most beautiful thing in the world,
+File: 000000000053 | output_ids: [50256, 198, 198, 464, 366, 464, 749, 4950, 1517, 287, 262, 995, 1, 198, 198, 464, 749, 4950, 1517, 287, 262, 995, 11, 262, 749, 4950, 1517, 287, 262, 995, 11]
+File: 000000000053 | input_ids: tensor([50256,   464,  4252, 22751,   866,   319,   257,   969,  2232,   319,
+          262, 10481,    13, 50256], device='cuda:0')
+File: 000000000054 | Prediction: <|endoftext|>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File: 000000000054 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198]
+File: 000000000054 | input_ids: tensor([50256,    32,  4675,  1051,   326,  9743, 20711,    64,  5586,  1306,
+          284,   257,  7331,  2615,    13, 50256], device='cuda:0')
+File: 000000000055 | Prediction: <|endoftext|>
+
+"
+
+
+"
+
+"
+
+"
+
+"
+
+"
+
+"
+
+"
+
+"
+
+
+File: 000000000055 | output_ids: [50256, 198, 198, 1, 198, 198, 198, 1, 198, 198, 1, 198, 198, 1, 198, 198, 1, 198, 198, 1, 198, 198, 1, 198, 198, 1, 198, 198, 1, 198, 198]
+File: 000000000055 | input_ids: tensor([50256, 15439, 25978,  9053,  3526,   981,  3290,  6296,   319,   340,
+          351,  1986,   287,  1048,   338, 50256], device='cuda:0')
+File: 000000000056 | Prediction: <|endoftext|>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File: 000000000056 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198]
+File: 000000000056 | input_ids: tensor([50256, 40009, 14595, 43064, 16566,   510,   287,   257, 20933, 50256],
+       device='cuda:0')
+File: 000000000057 | Prediction: <|endoftext|>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File: 000000000057 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198]
+File: 000000000057 | input_ids: tensor([50256, 31305,   257,  8667,   836,  5500,   389,  5586,   287,   257,
+         3091,    13, 50256], device='cuda:0')
+File: 000000000058 | Prediction: <|endoftext|>
+The most favorite part of the most of the most of the most of the most of the most of the most of the most of the most of
+File: 000000000058 | output_ids: [50256, 198, 464, 749, 4004, 636, 286, 262, 749, 286, 262, 749, 286, 262, 749, 286, 262, 749, 286, 262, 749, 286, 262, 749, 286, 262, 749, 286, 262, 749, 286]
+File: 000000000058 | input_ids: tensor([50256,    32,  2415, 16299,   287,  3996,  1306,   284,   257,  3797,
+           13, 50256], device='cuda:0')
+File: 000000000059 | Prediction: <|endoftext|>
+
+
+The "The world is a world of the past, and the world is a world of the past, and the world is a world
+File: 000000000059 | output_ids: [50256, 198, 198, 198, 464, 366, 464, 995, 318, 257, 995, 286, 262, 1613, 11, 290, 262, 995, 318, 257, 995, 286, 262, 1613, 11, 290, 262, 995, 318, 257, 995]
+File: 000000000059 | input_ids: tensor([50256,    64, 15207,   286,   257, 10846,  6872,   257,  1660, 18086,
+        50256], device='cuda:0')
+File: 000000000060 | Prediction: <|endoftext|>
+
+The "The most " The most " is the most "
+
+" The most " "
+
+" The most " "
+
+
+File: 000000000060 | output_ids: [50256, 198, 198, 464, 366, 464, 749, 366, 383, 749, 366, 318, 262, 749, 366, 198, 198, 1, 383, 749, 366, 366, 198, 198, 1, 383, 749, 366, 366, 198, 198]
+File: 000000000060 | input_ids: tensor([50256, 14945,   661,   389,  1972,  3492,   284,  3802,   262,  1660,
+          329, 36254,    13, 50256], device='cuda:0')
+File: 000000000061 | Prediction: <|endoftext|> the most awesome thing that I can do is a a a a a a a a a a a a a a a a a a a a a
+File: 000000000061 | output_ids: [50256, 262, 749, 7427, 1517, 326, 314, 460, 466, 318, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257, 257]
+File: 000000000061 | input_ids: tensor([50256,  3198,  1048,   319,   257, 22647,  3526,   857,   257,  4391,
+          981,  1194, 16860,    13, 50256], device='cuda:0')
+File: 000000000062 | Prediction: <|endoftext|>
+The following is a video of the video is a video of the video of the video of the video of the video of the video of the video
+File: 000000000062 | output_ids: [50256, 198, 464, 1708, 318, 257, 2008, 286, 262, 2008, 318, 257, 2008, 286, 262, 2008, 286, 262, 2008, 286, 262, 2008, 286, 262, 2008, 286, 262, 2008, 286, 262, 2008]
+File: 000000000062 | input_ids: tensor([50256,    32,  1448,   286,  1862,  1751, 10311,  1341,   271,   866,
+          257,  6729,  5017,  8598,    13, 50256], device='cuda:0')
+File: 000000000063 | Prediction: <|endoftext|>
+
+The only one of the most popular and the most popular in the world.
+The only one of the most popular and the most popular in
+File: 000000000063 | output_ids: [50256, 198, 198, 464, 691, 530, 286, 262, 749, 2968, 290, 262, 749, 2968, 287, 262, 995, 13, 198, 464, 691, 530, 286, 262, 749, 2968, 290, 262, 749, 2968, 287]
+File: 000000000063 | input_ids: tensor([50256,  8061,   319,   257, 24058,  1306,   284,  2615,   351,  8801,
+           13, 50256], device='cuda:0')
+File: 000000000064 | Prediction: <|endoftext|>
+The only place to be a part of the world.
+
+The only place to be a part of the world.
+The only place to
+File: 000000000064 | output_ids: [50256, 198, 464, 691, 1295, 284, 307, 257, 636, 286, 262, 995, 13, 198, 198, 464, 691, 1295, 284, 307, 257, 636, 286, 262, 995, 13, 198, 464, 691, 1295, 284]
+File: 000000000064 | input_ids: tensor([50256,   464,  2272,   516,  2877,  2119,   468,   257,  1588,  5581,
+          290,   257, 44250,    13, 50256], device='cuda:0')
+File: 000000000065 | Prediction: <|endoftext|>
+The following is a very common practice of the following is a very common common common common common common common common common common common common common common common common
+File: 000000000065 | output_ids: [50256, 198, 464, 1708, 318, 257, 845, 2219, 3357, 286, 262, 1708, 318, 257, 845, 2219, 2219, 2219, 2219, 2219, 2219, 2219, 2219, 2219, 2219, 2219, 2219, 2219, 2219, 2219, 2219]
+File: 000000000065 | input_ids: tensor([50256, 14945,   275,   709,   500,   804,   503,   625,   262, 18639,
+          319,   257,  6279,  1203, 27737,  1110,    13, 50256],
+       device='cuda:0')
+File: 000000000066 | Prediction: <|endoftext|>
+The National Park Service is a great thing.
+
+The National Park Service Center is a great place.
+
+The National Park Service Center is
+File: 000000000066 | output_ids: [50256, 198, 464, 2351, 3250, 4809, 318, 257, 1049, 1517, 13, 198, 198, 464, 2351, 3250, 4809, 3337, 318, 257, 1049, 1295, 13, 198, 198, 464, 2351, 3250, 4809, 3337, 318]
+File: 000000000066 | input_ids: tensor([50256,    32,  1448,   286,   661, 10311, 39404,   319,   257,  2975,
+          290, 12225,   290,   257,  2245,  1051,    13, 50256],
+       device='cuda:0')
+File: 000000000067 | Prediction: <|endoftext|>
+The first day of the first day of the first day of the first day of the first day of the first day of the first day of the
+File: 000000000067 | output_ids: [50256, 198, 464, 717, 1110, 286, 262, 717, 1110, 286, 262, 717, 1110, 286, 262, 717, 1110, 286, 262, 717, 1110, 286, 262, 717, 1110, 286, 262, 717, 1110, 286, 262]
+File: 000000000067 | input_ids: tensor([50256,    32, 37370, 21223, 23831,   625,   287,   257, 46336,  2214,
+         1306,   284,   617, 20096,    13, 50256], device='cuda:0')
+File: 000000000068 | Prediction: <|endoftext|>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File: 000000000068 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198]
+File: 000000000068 | input_ids: tensor([50256,    32,  7480,  5901,   351,  2972,  6982,   286,  2057,    13,
+        50256], device='cuda:0')
+File: 000000000069 | Prediction: <|endoftext|>
+The first snowfall of the snowfall of the snowfall is a snowfall that is a snowfall that is a snowfall that is a
+File: 000000000069 | output_ids: [50256, 198, 464, 717, 6729, 7207, 286, 262, 6729, 7207, 286, 262, 6729, 7207, 318, 257, 6729, 7207, 326, 318, 257, 6729, 7207, 326, 318, 257, 6729, 7207, 326, 318, 257]
+File: 000000000069 | input_ids: tensor([50256,  1858,   318,   257,  4286,   286,   281,  2354,  7674,    13,
+          198, 50256], device='cuda:0')
+File: 000000000070 | Prediction: <|endoftext|>
+The "The "The "Merry" "The "Merry" is the "Merry-M"
+"The "Merry
+File: 000000000070 | output_ids: [50256, 198, 464, 366, 464, 366, 464, 366, 44, 6996, 1, 366, 464, 366, 44, 6996, 1, 318, 262, 366, 44, 6996, 12, 44, 1, 198, 1, 464, 366, 44, 6996]
+File: 000000000070 | input_ids: tensor([50256,    64,  4038,   318,  7348,  1613,   257,  1448,   286,   661,
+        50256], device='cuda:0')
+File: 000000000071 | Prediction: <|endoftext|>
+The "F"F" is a "F" or "F" is a "F" or "F"" is a "F
+File: 000000000071 | output_ids: [50256, 198, 464, 366, 37, 1, 37, 1, 318, 257, 366, 37, 1, 393, 366, 37, 1, 318, 257, 366, 37, 1, 393, 366, 37, 1, 1, 318, 257, 366, 37]
+File: 000000000071 | input_ids: tensor([50256,    32,   582,   479,   578, 27794,   625,   262,  9151,   739,
+          257,  4171,  6766,    13, 50256], device='cuda:0')
+File: 000000000072 | Prediction: <|endoftext|>
+The world is a world where the world is a world where the world is a world where the world is a world where the world is a world
+File: 000000000072 | output_ids: [50256, 198, 464, 995, 318, 257, 995, 810, 262, 995, 318, 257, 995, 810, 262, 995, 318, 257, 995, 810, 262, 995, 318, 257, 995, 810, 262, 995, 318, 257, 995]
+File: 000000000072 | input_ids: tensor([50256, 16424,  2712,   290, 28175,  1626,   257, 48083,   286,  2330,
+         7714, 50256], device='cuda:0')
+File: 000000000073 | Prediction: <|endoftext|>
+
+A large, large, and large, and large, and large, and large, and large, and large, and large, and large
+File: 000000000073 | output_ids: [50256, 198, 198, 32, 1588, 11, 1588, 11, 290, 1588, 11, 290, 1588, 11, 290, 1588, 11, 290, 1588, 11, 290, 1588, 11, 290, 1588, 11, 290, 1588, 11, 290, 1588]
+File: 000000000073 | input_ids: tensor([50256,   464, 10955, 12187,   468,  3223,   290,  1657,  4171, 21682,
+          278,    13, 50256], device='cuda:0')
+File: 000000000074 | Prediction: <|endoftext|>
+A large, large, long, and long, and a large, long, and and and and and and and and and and and and and
+File: 000000000074 | output_ids: [50256, 198, 32, 1588, 11, 1588, 11, 890, 11, 290, 890, 11, 290, 257, 1588, 11, 890, 11, 290, 290, 290, 290, 290, 290, 290, 290, 290, 290, 290, 290, 290]
+File: 000000000074 | input_ids: tensor([50256, 26125,   929,   286,   257,  7586,  6842,  5586,   287,   257,
+         8701,    88,  1989,    13, 50256], device='cuda:0')
+File: 000000000075 | Prediction: <|endoftext|>
+The situation of the situation of the situation of the situation of the situation of the situation of the situation of the situation of the situation of the situation
+File: 000000000075 | output_ids: [50256, 198, 464, 3074, 286, 262, 3074, 286, 262, 3074, 286, 262, 3074, 286, 262, 3074, 286, 262, 3074, 286, 262, 3074, 286, 262, 3074, 286, 262, 3074, 286, 262, 3074]
+File: 000000000075 | input_ids: tensor([50256,  7571,  2415, 21804,  1028,   257,  3355,  5762,  5156,  1017,
+          654,    13, 50256], device='cuda:0')
+File: 000000000076 | Prediction: <|endoftext|> "I'm not a person who is not a person who is a person who is a person who is a person who is a person who is a
+File: 000000000076 | output_ids: [50256, 366, 40, 1101, 407, 257, 1048, 508, 318, 407, 257, 1048, 508, 318, 257, 1048, 508, 318, 257, 1048, 508, 318, 257, 1048, 508, 318, 257, 1048, 508, 318, 257]
+File: 000000000076 | input_ids: tensor([50256,    32,   582, 10311,   257, 18757,   981,  6600,  2057,    13,
+        50256], device='cuda:0')
+File: 000000000077 | Prediction: <|endoftext|>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File: 000000000077 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198]
+File: 000000000077 | input_ids: tensor([50256,    32, 20239,  1171, 40018,   351, 49807,  7714,   290,  7872,
+         3753,    13, 50256], device='cuda:0')
+File: 000000000078 | Prediction: <|endoftext|>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File: 000000000078 | output_ids: [50256, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198, 198]
+File: 000000000078 | input_ids: tensor([50256,  5661,   318,   257,  9799,   267,  1437,  4898, 35715,  3084,
+        50256], device='cuda:0')
+File: 000000000079 | Prediction: <|endoftext|> the ball is a ball that ball is a ball that is a ball that is a ball that is a ball that is a ball that is a ball
+File: 000000000079 | output_ids: [50256, 262, 2613, 318, 257, 2613, 326, 2613, 318, 257, 2613, 326, 318, 257, 2613, 326, 318, 257, 2613, 326, 318, 257, 2613, 326, 318, 257, 2613, 326, 318, 257, 2613]
+File: 000000000079 | input_ids: tensor([50256,    32,  1310,  5141, 25635,   257,  7365,   287,   257,  9283,
+          983,    13, 50256], device='cuda:0')
+File: 000000000080 | Prediction: <|endoftext|>
+
+The dog that is the dog that is the dog that is the dog that is the dog that is the dog that is the dog that is
+File: 000000000080 | output_ids: [50256, 198, 198, 464, 3290, 326, 318, 262, 3290, 326, 318, 262, 3290, 326, 318, 262, 3290, 326, 318, 262, 3290, 326, 318, 262, 3290, 326, 318, 262, 3290, 326, 318]
+File: 000000000080 | input_ids: tensor([50256,    32,  3290,  9105,   319,   257,  5118,   351,   257,  6576,
+        17292,    13, 50256], device='cuda:0')

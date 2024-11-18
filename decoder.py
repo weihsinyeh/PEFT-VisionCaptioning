@@ -99,6 +99,6 @@ class Decoder(nn.Module):
         x = torch.cat([visual_embeds, x], dim=1)
         x = self.transformer.ln_f(self.transformer.h(x))
         # Take only the text embeddings as the prediction token to Linear layer
-        text_output = x[:, -1,:]
-        x = self.lm_head(text_output)
+        x = self.lm_head(x)
+        x = x[:, -1,:]
         return x
