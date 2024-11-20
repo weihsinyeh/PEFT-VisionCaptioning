@@ -19,8 +19,8 @@ class Attention(nn.Module):
 
     def __init__(self, cfg):
         super().__init__()
-        self.c_attn = lora.Linear(cfg.n_embd, 3 * cfg.n_embd, r = 32, lora_alpha = 64, lora_dropout = 0.3)
-        self.c_proj = lora.Linear(cfg.n_embd, cfg.n_embd, r = 32, lora_alpha = 64, lora_dropout = 0.3)
+        self.c_attn = lora.Linear(cfg.n_embd, 3 * cfg.n_embd, r = 32, lora_alpha = 64, lora_dropout = 0.1)
+        self.c_proj = lora.Linear(cfg.n_embd, cfg.n_embd, r = 32, lora_alpha = 64, lora_dropout = 0.1)
         self.n_head = cfg.n_head
         self.n_embd = cfg.n_embd
         size = cfg.block_size
@@ -48,9 +48,9 @@ class Block(nn.Module):
         self.ln_2 = nn.LayerNorm(cfg.n_embd)
         self.attn = Attention(cfg)
         self.mlp = nn.Sequential(collections.OrderedDict([
-            ("c_fc", lora.Linear(cfg.n_embd, 4 * cfg.n_embd, r = 32, lora_alpha=64, lora_dropout=0.3)),
+            ("c_fc", lora.Linear(cfg.n_embd, 4 * cfg.n_embd, r = 32, lora_alpha=64, lora_dropout=0.1)),
             ('act', nn.GELU(approximate='tanh')),
-            ("c_proj", lora.Linear(4 * cfg.n_embd, cfg.n_embd, r = 32, lora_alpha=64, lora_dropout=0.3))
+            ("c_proj", lora.Linear(4 * cfg.n_embd, cfg.n_embd, r = 32, lora_alpha=64, lora_dropout=0.1))
         ]))
 
     def forward(self, x, att=None):
@@ -74,7 +74,7 @@ class Decoder(nn.Module):
             h = nn.Sequential(*[Block(cfg) for _ in range(cfg.n_layer)]),
             ln_f = nn.LayerNorm(cfg.n_embd)
         ))
-        self.lm_head = lora.Linear(cfg.n_embd, cfg.vocab_size, bias=False, r = 32, lora_alpha=64, lora_dropout=0.3)
+        self.lm_head = lora.Linear(cfg.n_embd, cfg.vocab_size, bias=False, r = 32, lora_alpha=64, lora_dropout=0.1)
         self.transformer.wte.weight = self.lm_head.weight
         self.attention_visualization = cfg.attention_visualization
         # load checkpoint

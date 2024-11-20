@@ -98,7 +98,7 @@ def main():
         attentions = output["attentions"]
         captions = []
         image_start, image_end, text_start, text_end = -1, -1, -1, len(output["sequences"][0])
-        for id in range(5, len(output["sequences"][0])):
+        for id in range(5, len(output["sequences"][0])+1):
             if output["sequences"][0][id-1:id] == 32000:
                 if(image_start == -1):
                     image_start = id

@@ -32,18 +32,12 @@ def main():
         low_cpu_mem_usage=True, 
     ).to(0)
 
-    # Define a chat histiry and use `apply_chat_template` to get correctly formatted prompt
-    # Each value in "content" has to be a list of dicts with types ("text", "image") 
     # Best : "Focus only on the primary object and its core action in this image. Keep the caption short and clear. Avoid any extra details."
-    conversation = [
-        {
+    conversation = [{
             "role": "user",
             "content": [                   
-                {"type": "text", "text": "Describe caption clear and short in 30 words."},
-                {"type": "image"},
-            ],
-        },
-    ]
+                {"type": "text", "text": "Describe picture briefly in 30 words."},
+                {"type": "image"},],},]
     print("Prompt:", conversation)
     prompt = processor.apply_chat_template(conversation, add_generation_prompt=True)
     outputs = {}

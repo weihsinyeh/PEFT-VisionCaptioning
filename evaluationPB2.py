@@ -15,6 +15,8 @@ def parse():
     parser.add_argument("--checkpoint",         type = str,     default = "./epoch_3.bin")
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/val")
     parser.add_argument("--decoder",            type = str,     default = "./decoder_model.bin")
+    
+    parser.add_argument("--projection_dropout", type = float,   default = 0.1)
     return parser.parse_args()
 
 def main():
@@ -35,20 +37,16 @@ def main():
     
     # Load Encoder
     pretrained_model    = timm.create_model(modelname, pretrained=True, num_classes = 0).to(config.device)
-    print(f"Pretrained model: {modelname}")
 
     # Load Decoder
     deconder_config     = Config(config.decoder)
     decoder             = Decoder(deconder_config, config.device).to(config.device)
     decoder.load_state_dict(torch.load(config.decoder), strict=False)
-
     # Load Model
-    model = VITModel(pretrained_model, decoder, tokenizer, config.device)
+    model = VITModel(pretrained_model, decoder, tokenizer, config.device, projection_dropout = config.projection_dropout, attention_visualization = False)
     model.to(config.device)
-              
-    checkpoint_path = os.path.join(config.checkpoint)
-    model.eval()
-    # Load
+
+    # Load Weight
     checkpoint          = torch.load(config.checkpoint)
     lora_params         = checkpoint["lora_state_dict"]
     trainable_params    = checkpoint["trainable_params"]
@@ -61,6 +59,7 @@ def main():
     print(f"Loaded trainable parameters: {loaded_trainable_params_count}")
 
     output_data = {}
+    model.eval()
     for batch in tqdm(valid_loader):
         batch["images"]     = batch["images"].to(config.device)
         output_ids          = model.generate(batch["images"])
