@@ -1,7 +1,7 @@
 import torch, argparse, transformers, tqdm, os, json
 from transformers import AutoProcessor, LlavaForConditionalGeneration
 from transformers import BitsAndBytesConfig
-from dataloader import DataLoaderTrain, DataLoaderTest
+from dataloader import DataLoaderTest
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
@@ -36,7 +36,7 @@ def main():
     conversation = [{
             "role": "user",
             "content": [                   
-                {"type": "text", "text": "Describe picture briefly in 30 words."},
+                {"type": "text", "text": "Focus only on the primary object and its core action in this image. Keep the caption short and clear. Avoid any extra details."},
                 {"type": "image"},],},]
     print("Prompt:", conversation)
     prompt = processor.apply_chat_template(conversation, add_generation_prompt=True)
