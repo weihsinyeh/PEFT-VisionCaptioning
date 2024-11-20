@@ -5,7 +5,7 @@ import torch.nn.functional as F
 BOS = 50256
 EOS = 50256
 class VITModel(nn.Module):
-    def __init__(self, pretrained_model, decoder, tokenizer, device):
+    def __init__(self, pretrained_model, decoder, tokenizer, device, projection_dropout, attention_visualization = False):
         super().__init__()
         self.tokenizer = tokenizer
         
@@ -13,7 +13,11 @@ class VITModel(nn.Module):
         self.pretrained_model = pretrained_model
 
         # The embedding dimension is: 384 for ViT-S. 768 for ViT-B. 1024 for ViT-L.
-        self.Linear = nn.Linear(1664, 768).to(device) 
+        self.Linear = nn.Sequential(
+            nn.Dropout(projection_dropout),
+            nn.Linear(1664, 768).to(device),
+            nn.Dropout(projection_dropout)
+        )
         
         # Decoder
         self.decoder   = decoder.to(device)
@@ -24,10 +28,13 @@ class VITModel(nn.Module):
         # Device
         self.device = device
 
+        # Visualize Attention
+        self.attention_visualization = attention_visualization
+
     def forward(self, imgs, input_ids, attention_masks):
         # Encoder
         feature = self.pretrained_model.forward_features(imgs)
-        # print("Raw feature from encoder:", feature)
+        
         feature = self.Linear(feature)
 
         feature = self.decoder(feature, input_ids)
@@ -48,7 +55,10 @@ class VITModel(nn.Module):
         # Encoder
         feature = self.pretrained_model.forward_features(imgs)
         feature = self.Linear(feature)
-        outputs = self.greedy_search(feature)
+        if self.attention_visualization == False:
+            outputs = self.greedy_search(feature)
+        else:
+            outputs, attention_list = self.greedy_search(feature)
         # Remove BOS
         if outputs[0] == BOS:
             outputs = outputs[1:]
@@ -56,18 +66,28 @@ class VITModel(nn.Module):
             if outputs[i] == EOS:
                 outputs = outputs[:i]
                 break
-        return outputs
+        if self.attention_visualization == False:
+            return outputs
+        else:
+            return outputs, attention_list
     
     def greedy_search(self, feature, max_length = 30):
         cur_token = torch.tensor([BOS], dtype=torch.long).to(self.device).unsqueeze(1)
-        # attention_list = []
+        if self.attention_visualization:
+            attention_list = []
         for i in range(max_length):
-            next_prob = self.decoder(feature, cur_token)
-            #attention_list.append(att)
+            if self.attention_visualization == False:
+                next_prob = self.decoder(feature, cur_token)
+            else:
+                next_prob, att = self.decoder(feature, cur_token)
+                attention_list.append(att)
             next_prob   = next_prob[:, -1,:]
             next_token  = next_prob.argmax(dim=-1).unsqueeze(1)
             if next_token.item() == EOS:
                 break
             cur_token = torch.concat((cur_token, next_token), dim=-1)
             cur_token = cur_token.to(self.device)
-        return cur_token[0].cpu().tolist()
+        if self.attention_visualization == False:
+            return cur_token[0].cpu().tolist()
+        else:
+            return cur_token[0].cpu().tolist(), attention_list

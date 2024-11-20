@@ -12,6 +12,8 @@ class Config:
         self.vocab_size = 50257
         self.block_size = 1024
         self.checkpoint = checkpoint
+        self.dropout = 0.1
+        self.attention_visualization = False
 
 class Attention(nn.Module):
 
@@ -36,8 +38,7 @@ class Attention(nn.Module):
         att = (q @ k.transpose(-2, -1)) * (1.0 / math.sqrt(k.size(-1)))
         att = att.masked_fill(self.bias[:,:,:T,:T] == 0, float('-inf'))
         att = F.softmax(att, dim=-1)
-        # self.att_weights = att.clone().detach() 
-        return self.c_proj((att @ v).transpose(1, 2).contiguous().view(B, T, C))
+        return self.c_proj((att @ v).transpose(1, 2).contiguous().view(B, T, C)), att
 
 class Block(nn.Module):
 
@@ -52,12 +53,13 @@ class Block(nn.Module):
             ("c_proj", lora.Linear(4 * cfg.n_embd, cfg.n_embd, r = 32, lora_alpha=64, lora_dropout=0.3))
         ]))
 
-    def forward(self, x):
+    def forward(self, x, att=None):
         # self-attention
-        x = x + self.attn(self.ln_1(x))
+        x_att, att_map = self.attn(self.ln_1(x))
+        x = x + x_att
         # MLP layer
         x = x + self.mlp(self.ln_2(x))
-        return x
+        return x, att_map
 
 class Decoder(nn.Module):
 
@@ -74,6 +76,7 @@ class Decoder(nn.Module):
         ))
         self.lm_head = lora.Linear(cfg.n_embd, cfg.vocab_size, bias=False, r = 32, lora_alpha=64, lora_dropout=0.3)
         self.transformer.wte.weight = self.lm_head.weight
+        self.attention_visualization = cfg.attention_visualization
         # load checkpoint
         if self.cfg.checkpoint is not None:
             state_dict = torch.load(self.cfg.checkpoint)
@@ -89,12 +92,18 @@ class Decoder(nn.Module):
         x = self.transformer.wte(x) + self.transformer.wpe(pos)
         x = torch.cat([visual_embeds, x], dim=1)
 
-        x = self.transformer.h(x)
+        attention_weights = []
+        for block in self.transformer.h:
+            x, atten_weight = block(x)
+            attention_weights.append(atten_weight)
         text_output = x[:, visual_embeds.size(1):]
         x = self.transformer.ln_f(text_output)
         # Take only the text embeddings as the prediction token to Linear layer
         x = self.lm_head(x)
-        return x
+        if self.attention_visualization:
+            return x, attention_weights
+        else:
+            return x
 
     def generate(self, visual_embeds: Tensor, x: Tensor):
         x = torch.narrow(x, 1, 0, min(x.size(1), self.block_size))

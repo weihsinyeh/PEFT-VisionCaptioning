@@ -48,13 +48,13 @@ class DataLoaderTrain(Dataset):
         return len(self.datas)
 
     def collate_fn(self, batch):
-        filenames, captions, input_ids, images, image_ids  = [], [], [], [], []
+        filenames, captions, input_ids, images, image_ids, file_paths = [], [], [], [], [], []
         for item in batch:
             filenames.append(item["file_name"])
             captions.append(item["caption"])
             image_ids.append(item["image_id"])
             images.append(item["image"])
-
+            file_paths.append(item["file_path"])
         input_ids = []
         for caption in captions:
             input_id = self.tokenizer.encode(caption)
@@ -79,29 +79,38 @@ class DataLoaderTrain(Dataset):
                     "input_ids"       : input_ids,
                     "attention_masks" : att_mask_tensors,
                     "images"          : images,
-                    "image_ids"       : image_ids }
+                    "image_ids"       : image_ids,
+                    "file_paths"      : file_paths}
     
 class DataLoaderTest(Dataset):
-    def __init__(self, imagedir, image2tensor):
+    def __init__(self, imagedir, transform):
         self.imagedir = imagedir
         self.images = os.listdir(imagedir)
-        self.image2tensor = image2tensor
-    
+        self.transform = transform
+        self.datas = []
+        for data in self.images:
+            item = {}
+            filename, ext = os.path.splitext(data)
+            item["filepath"] = data
+            item["filename"] = filename
+            self.datas.append(item)
+        
     def __getitem__(self, idx):
-        img = self.image2tensor(Image.open(os.path.join(self.imagedir, self.images[idx])).convert('RGB'))
-        return {
-            "image": img,
-            "file_name": self.images[idx][0]}
+        path = os.path.join(self.imagedir, self.datas[idx]["filepath"])
+        image = Image.open(path).convert('RGB')
+        self.datas[idx]["image"] = self.transform(image)
+        return self.datas[idx]
 
     def __len__(self):
         return len(self.images)
 
     def collate_fn(self, batch):
-        filenames, images   = [], []
-        print("batch", batch)
+        filenames, images, filepaths = [], [], []
         for item in batch:
-            filenames.append(item["file_name"])
+            filenames.append(item["filename"])
             images.append(item["image"])
+            filepaths.append(item["filepath"])
         images = torch.stack(images, dim=0)
-        return {    "filenames": filenames,
-                    "images": images}
+        return {    "filenames" : filenames,
+                    "images"    : images,
+                    "filepaths" : filepaths}

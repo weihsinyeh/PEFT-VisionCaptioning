@@ -13,18 +13,28 @@ def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/train.json")
     parser.add_argument("--valid_annotation",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/val.json")
-    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_new3")
-    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_new3")
+    parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_new12")
+    parser.add_argument("--output_checkpoint",  type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_new12")
     parser.add_argument("--train_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/train")
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/val")
     parser.add_argument("--decoder",            type = str,     default = "./decoder_model.bin")
-    parser.add_argument("--batch_size",         type = int,     default = 8)
-    parser.add_argument("--lr",                 type = float,   default = 3e-4)
-    parser.add_argument("--epochs",             type = int,     default = 100)
+    parser.add_argument("--batch_size",         type = int,     default = 32)
+    parser.add_argument("--lr",                 type = float,   default = 0.001)
+    parser.add_argument("--epochs",             type = int,     default = 10)
+    parser.add_argument("--projection_dropout", type = float,   default = 0.1)
+    parser.add_argument("--lora_dropout",       type = float,   default = 0.1)
+    parser.add_argument("--weight_decay",       type = float,   default = 0.005)
+    parser.add_argument("--T_max",              type = int,     default = 5)
     return parser.parse_args()
 
 def main():
     config = parse()
+    print("Batch size:", config.batch_size)
+    print("Learning rate:", config.lr)
+    print("Projection dropout:", config.projection_dropout)
+    print("LoRA dropout:", config.lora_dropout)
+    print("Weight decay:", config.weight_decay)
+    print("T_max:", config.T_max)
     # Create directories
     if config.pred_file is not None:
         os.makedirs(config.pred_file, exist_ok=True)
@@ -51,9 +61,10 @@ def main():
     
     # Load Decoder
     deconder_config = Config(config.decoder)
+    deconder_config.dropout = config.lora_dropout
     decoder = Decoder(deconder_config, config.device).to(device)
     # Load Model
-    model = VITModel(pretrained_model, decoder, tokenizer, device)
+    model = VITModel(pretrained_model, decoder, tokenizer, device, projection_dropout = config.projection_dropout, attention_visualization = False)
 
     # Set Trainable parameters
     lora.mark_only_lora_as_trainable(model)
@@ -67,9 +78,9 @@ def main():
     # Learning rate is ften around 1e-4 to 1e-3.
     lora_params = [param for name, param in model.named_parameters() if param.requires_grad and "lora" in name]
     base_params = [param for name, param in model.named_parameters() if param.requires_grad and "lora" not in name]
-    optimizer = torch.optim.AdamW([{"params": lora_params, "lr": 1e-4}, {"params": base_params, "lr": 3e-4}])
-    optimizer = torch.optim.AdamW(model.parameters(), lr=config.lr)
-
+    optimizer = torch.optim.AdamW([{"params": lora_params, "lr": 3e-4}, {"params": base_params, "lr": config.lr}], weight_decay=config.weight_decay)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=config.lr, weight_decay=config.weight_decay)
+    scheduler = CosineAnnealingLR(optimizer, T_max=config.T_max)
     # Recoder the weights that is trained
     train_parameter_name = []
     for name, param in model.named_parameters():
@@ -80,7 +91,6 @@ def main():
     lora_total_params = sum(p.numel() for p in lora.lora_state_dict(model).values())
     model_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
 
-    total_params = lora_total_params + model_trainable_params
     print("Total parameters (only LoRA):", lora_total_params)
     print("Trainable parameters (model_trainable_params):", model_trainable_params)
 
@@ -114,7 +124,8 @@ def main():
             # Track loss for the epoch
             train_loss += loss.item()
             progress_bar.set_postfix({"loss": loss.item()})
-            
+        
+        scheduler.step()
         print(f"Epoch {epoch} Train Loss: {train_loss / len(train_loader)}")
         # Save model        
         checkpoint_path = os.path.join(config.output_checkpoint,f"epoch_{epoch}.bin")
