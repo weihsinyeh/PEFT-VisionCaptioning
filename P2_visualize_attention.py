@@ -27,7 +27,7 @@ def parse():
     parser.add_argument("--pred_file",          type = str,     default = "/project/g/r13922043/hw3_output/P2_pred_new9")
     parser.add_argument("--checkpoint_path",    type = str,     default = "/project/g/r13922043/hw3_output/P2_checkpoint_new9")
     parser.add_argument("--valid_images_dir",   type = str,     default = "/project/g/r13922043/hw3_data/p2_data/images/val")
-    parser.add_argument("--outimg",             type = str,     default = "./outputimg")
+    parser.add_argument("--outimg",             type = str,     default = "./outputimgP2")
     parser.add_argument("--epoch",              type = int,     default = 3)
     parser.add_argument("--decoder",            type = str,     default = "./decoder_model.bin")
     parser.add_argument("--batch_size",         type = int,     default = 32)

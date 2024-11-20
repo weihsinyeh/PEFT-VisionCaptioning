@@ -24,7 +24,7 @@ def parse():
     parser.add_argument("--projection_dropout", type = float,   default = 0.1)
     parser.add_argument("--lora_dropout",       type = float,   default = 0.1)
     parser.add_argument("--weight_decay",       type = float,   default = 0.005)
-    parser.add_argument("--T_max",              type = int,     default = 5)
+    parser.add_argument("--T_max",              type = int,     default = 3)
     return parser.parse_args()
 
 def main():
@@ -65,7 +65,7 @@ def main():
     decoder = Decoder(deconder_config, config.device).to(device)
     # Load Model
     model = VITModel(pretrained_model, decoder, tokenizer, device, projection_dropout = config.projection_dropout, attention_visualization = False)
-
+    
     # Set Trainable parameters
     lora.mark_only_lora_as_trainable(model)
 
