@@ -33,13 +33,14 @@ def main():
     ).to(0)
 
     # Best : "Focus only on the primary object and its core action in this image. Keep the caption short and clear. Avoid any extra details."
-    conversation = [{
-            "role": "user",
-            "content": [                   
-                {"type": "text", "text": "Focus only on the primary object and its core action in this image. Keep the caption short and clear. Avoid any extra details."},
-                {"type": "image"},],},]
-    print("Prompt:", conversation)
-    prompt = processor.apply_chat_template(conversation, add_generation_prompt=True)
+    # conversation = [{
+    #         "role": "user",
+    #         "content": [
+    #             {"type": "text", "text": "Focus only on the primary object and its core action in this image. Keep the caption short and clear. Avoid any extra details."},
+    #             {"type": "image"},],},]
+    prompt_token = "Focus only on the primary object and its core action in this image. Keep the caption short and clear. Avoid any extra details."
+    print("Prompt:", prompt_token)
+    prompt = "USER: <image>\n"+prompt_token+"\nASSISTANT:"
     outputs = {}
     with torch.no_grad():
         for batch in tqdm(test_loader):
